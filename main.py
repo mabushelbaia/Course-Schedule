@@ -1,5 +1,5 @@
 import recurring_ical_events
-from icalendar import Calendar, Event
+from icalendar import Calendar, Event, Alarm
 from courses import Courses
 from datetime import datetime, timedelta
 import os
@@ -38,6 +38,12 @@ for course in Courses:
         e.add('dtend', next_weekday(start, days[course.days[0]]).replace(hour=int(end_hour), minute=int(end_minute)))
         temp = [rrdays[day] for day in course.days]
         e.add('rrule', {'freq': 'weekly', 'until': end, 'byday': temp})
+    # add 10 minute prior notification
+    a = Alarm()
+    a.add('action', 'DISPLAY')
+    a.add('description', 'Reminder')
+    a.add('trigger', timedelta(minutes=-10))
+    e.add_component(a)
     c.add_component(e)
 f = open("calendar.ics", 'wb')
 f.write(c.to_ical())
