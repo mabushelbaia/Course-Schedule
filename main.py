@@ -1,4 +1,3 @@
-import recurring_ical_events
 from icalendar import Calendar, Event, Alarm
 from courses import Courses
 from datetime import datetime, timedelta

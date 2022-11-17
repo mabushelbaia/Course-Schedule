@@ -1,0 +1,2 @@
+beautifulsoup4==4.11.1
+icalendar==4.0.3
