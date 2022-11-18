@@ -38,7 +38,6 @@ for course in Courses:
     e.add_component(a)
     if course.hasMultipleRooms:
         for i, day in enumerate(course.days):
-            print(course)
             start_hour, end_hour = course.time[i][0].split(":")[0], course.time[i][1].split(":")[0]
             start_minute, end_minute = course.time[i][0].split(":")[1], course.time[i][1].split(":")[1]
             e.add('location', course.room[i])
