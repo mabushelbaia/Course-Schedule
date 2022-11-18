@@ -3,9 +3,27 @@ from courses import Courses
 from datetime import datetime, timedelta
 import os
 from pathlib import Path
+valid = False
+while not valid:
+    inp = input("Type Start Date dd/mm/yy: ")
+    try:
+        start = datetime.strptime(inp, "%d/%m/%Y")
+        valid = True
+    except:
+        print("Invalid Input try again.")
+valid = False
+while not valid:
+    inp = input("Type End Date dd/mm/yy: ")
+    try:
+        end = datetime.strptime(inp, "%d/%m/%Y")
+        valid = True
+    except:
+        print("Invalid Input try again.")
 c = Calendar()
-start = datetime(2022, 11, 7)
-end = datetime(2023, 2, 14)
+# start = datetime(2022, 11, 7)
+# end = datetime(2023, 2, 14)
+
+
 days = {"M": 0, "T": 1, "W": 2, "R": 3, "F": 4, "S": 5, "U": 6}
 rrdays = {"M": "MO", "T": "TU", "W": "WE", "R": "TH", "F": "FR", "S": "SA", "U": "SU"}
 # ==============================================================================
