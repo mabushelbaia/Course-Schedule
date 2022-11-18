@@ -30,14 +30,15 @@ def next_weekday(d, weekday):
     return d + timedelta(days_ahead)
 # ==============================================================================
 for course in Courses:
-    e = Event()
-    a = Alarm()
-    a.add('action', 'DISPLAY')
-    a.add('description', 'Reminder')
-    a.add('trigger', timedelta(minutes=-10))
-    e.add_component(a)
+
     if course.hasMultipleRooms:
         for i, day in enumerate(course.days):
+            e = Event()
+            a = Alarm()
+            a.add('action', 'DISPLAY')
+            a.add('description', 'Reminder')
+            a.add('trigger', timedelta(minutes=-10))
+            e.add_component(a)
             start_hour, end_hour = course.time[i][0].split(":")[0], course.time[i][1].split(":")[0]
             start_minute, end_minute = course.time[i][0].split(":")[1], course.time[i][1].split(":")[1]
             e.add('location', course.room[i])
@@ -49,6 +50,12 @@ for course in Courses:
             c.add_component(e)
 
     else:
+        e = Event()
+        a = Alarm()
+        a.add('action', 'DISPLAY')
+        a.add('description', 'Reminder')
+        a.add('trigger', timedelta(minutes=-10))
+        e.add_component(a)
         start_hour, end_hour = course.time[0].split(":")[0], course.time[1].split(":")[0]
         start_minute, end_minute = course.time[0].split(":")[1], course.time[1].split(":")[1]
         e.add('location', course.room)
