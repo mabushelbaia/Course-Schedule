@@ -42,7 +42,7 @@ for course in Courses:
             start_hour, end_hour = course.time[i][0].split(":")[0], course.time[i][1].split(":")[0]
             start_minute, end_minute = course.time[i][0].split(":")[1], course.time[i][1].split(":")[1]
             e.add('location', course.room[i])
-            e.add('description', f"Class: {course.Class} \nCode: {course.code} \nInstructor: {course.instructor} \nBuilding: {course.building[i]}")
+            e.add('description', f"Class: {course.Class}\nCode: {course.code}\nInstructor: {course.instructor}\nBuilding: {course.building[i]}")
             e.add('summary', course.title)
             e.add('dtstart', next_weekday(start, days[day]).replace(hour=int(start_hour), minute=int(start_minute)))
             e.add('dtend', next_weekday(start, days[day]).replace(hour=int(end_hour), minute=int(end_minute)))
@@ -59,7 +59,7 @@ for course in Courses:
         start_hour, end_hour = course.time[0].split(":")[0], course.time[1].split(":")[0]
         start_minute, end_minute = course.time[0].split(":")[1], course.time[1].split(":")[1]
         e.add('location', course.room)
-        e.add('description', f"Class: {course.Class} \nCode: {course.code} \nInstructor: {course.instructor} \nBuilding: {course.building}")
+        e.add('description', f"Class: {course.Class}\nCode: {course.code}\nInstructor: {course.instructor}\nBuilding: {course.building}")
         e.add('summary', course.title)
         e.add('dtstart', next_weekday(start, days[course.days[0]]).replace(hour=int(start_hour), minute=int(start_minute)))
         e.add('dtend', next_weekday(start, days[course.days[0]]).replace(hour=int(end_hour), minute=int(end_minute)))
