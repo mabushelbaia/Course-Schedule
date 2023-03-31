@@ -2,24 +2,24 @@ from icalendar import Calendar, Event, Alarm
 from courses import Courses
 from datetime import datetime, timedelta
 valid = False
-# while not valid:
-#     inp = input("Type Start Date dd/mm/yy: ")
-#     try:
-#         start = datetime.strptime(inp, "%d/%m/%Y")
-#         valid = True
-#     except:
-#         print("Invalid Input try again.")
-# valid = False
-# while not valid:
-#     inp = input("Type End Date dd/mm/yy: ")
-#     try:
-#         end = datetime.strptime(inp, "%d/%m/%Y")
-#         valid = True
-#     except:
-#         print("Invalid Input try again.")
+while not valid:
+    inp = input("Type Start Date dd/mm/yy: ")
+    try:
+        start = datetime.strptime(inp, "%d/%m/%Y")
+        valid = True
+    except:
+        print("Invalid Input try again.")
+valid = False
+while not valid:
+    inp = input("Type End Date dd/mm/yy: ")
+    try:
+        end = datetime.strptime(inp, "%d/%m/%Y")
+        valid = True
+    except:
+        print("Invalid Input try again.")
 c = Calendar()
-start = datetime(2022, 11, 7)
-end = datetime(2023, 2, 14)
+# start = datetime(2022, 11, 7)
+# end = datetime(2023, 2, 14)
 
 days = {"M": 0, "T": 1, "W": 2, "R": 3, "F": 4, "S": 5, "U": 6}
 rrdays = {"M": "MO", "T": "TU", "W": "WE", "R": "TH", "F": "FR", "S": "SA", "U": "SU"}
@@ -66,8 +66,6 @@ for course in Courses:
         temp = [rrdays[day] for day in course.days]
         e.add('rrule', {'freq': 'weekly', 'until': end, 'byday': temp})
         c.add_component(e)
-
-f = open("calendar.ics", 'wb')
-f.write(c.to_ical())
-f.close()
+with open ('calendar.ics', 'wb') as f:
+    f.write(c.to_ical())
 

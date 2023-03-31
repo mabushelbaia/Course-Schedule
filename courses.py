@@ -29,7 +29,7 @@ class Course:
         self.days = array[4]
     def __str__(self):
         return f"Course Code: {self.code} \nClass: {self.Class} \nTitle: {self.title} \nInstructor: {self.instructor} \nDays: {self.days} \nTime: {self.time} \nRoom: {self.room} \nBuilding: {self.building}"
-with open('index.html') as html_file:
+with open('index.html', encoding='utf-8') as html_file:
     soup = BeautifulSoup(html_file, 'lxml')
 table = soup.find('table')
 table_rows = table.find_all('tr')
