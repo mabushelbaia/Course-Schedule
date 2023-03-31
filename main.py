@@ -1,25 +1,25 @@
 from icalendar import Calendar, Event, Alarm
 from courses import Courses
 from datetime import datetime, timedelta
-valid = False
-while not valid:
-    inp = input("Type Start Date dd/mm/yy: ")
-    try:
-        start = datetime.strptime(inp, "%d/%m/%Y")
-        valid = True
-    except:
-        print("Invalid Input try again.")
-valid = False
-while not valid:
-    inp = input("Type End Date dd/mm/yy: ")
-    try:
-        end = datetime.strptime(inp, "%d/%m/%Y")
-        valid = True
-    except:
-        print("Invalid Input try again.")
+# valid = False
+# while not valid:
+#     inp = input("Type Start Date dd/mm/yy: ")
+#     try:
+#         start = datetime.strptime(inp, "%d/%m/%Y")
+#         valid = True
+#     except:
+#         print("Invalid Input try again.")
+# valid = False
+# while not valid:
+#     inp = input("Type End Date dd/mm/yy: ")
+#     try:
+#         end = datetime.strptime(inp, "%d/%m/%Y")
+#         valid = True
+#     except:
+#         print("Invalid Input try again.")
 c = Calendar()
-# start = datetime(2022, 11, 7)
-# end = datetime(2023, 2, 14)
+start = datetime(2022, 3, 28)
+end = datetime(2023, 7, 28)
 
 days = {"M": 0, "T": 1, "W": 2, "R": 3, "F": 4, "S": 5, "U": 6}
 rrdays = {"M": "MO", "T": "TU", "W": "WE", "R": "TH", "F": "FR", "S": "SA", "U": "SU"}
@@ -61,8 +61,8 @@ for course in Courses:
         e.add('location', course.room)
         e.add('description', f"Class: {course.Class}\nCode: {course.code}\nInstructor: {course.instructor}\nBuilding: {course.building}")
         e.add('summary', course.title)
-        e.add('dtstart', next_weekday(start, days[course.days[0]]).replace(hour=int(start_hour), minute=int(start_minute)))
-        e.add('dtend', next_weekday(start, days[course.days[0]]).replace(hour=int(end_hour), minute=int(end_minute)))
+        e.add('dtstart', min(next_weekday(start, days[course.days[0]]), next_weekday(start, days[course.days[-1]])).replace(hour=int(start_hour), minute=int(start_minute)))
+        e.add('dtend', min(next_weekday(start, days[course.days[0]]), next_weekday(start, days[course.days[-1]])).replace(hour=int(end_hour), minute=int(end_minute)))
         temp = [rrdays[day] for day in course.days]
         e.add('rrule', {'freq': 'weekly', 'until': end, 'byday': temp})
         c.add_component(e)
