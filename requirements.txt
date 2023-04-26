@@ -1,3 +1,2 @@
-beautifulsoup4==4.11.1
+beautifulsoup4==4.12.2
 icalendar==4.0.3
-lxml==4.9.1
