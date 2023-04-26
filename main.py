@@ -7,7 +7,7 @@ from courses import Course, get_courses
 from datetime import datetime, timedelta
 
 c = Calendar()
-start = datetime(2022, 3, 28)
+start = datetime(2023, 3, 28)
 end = datetime(2023, 7, 28)
 
 days = {"M": 0, "T": 1, "W": 2, "R": 3, "F": 4, "S": 5, "U": 6}
@@ -17,6 +17,8 @@ def next_weekday(d, weekday): # A function  to get the next weekday from a given
     days_ahead = weekday - d.weekday()
     return d + timedelta(days_ahead)
 for course in get_courses():
+    if course.days[0] not in days or course.time[0] == ["N/A"]: # Skip courses with no time or days
+        continue
     if course.hasMultipleRooms: # Split courses with multiple rooms into multiple events
         for i, day in enumerate(course.days):
             e = Event()
