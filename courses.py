@@ -29,12 +29,15 @@ class Course:
         self.days = array[4]
     def __str__(self):
         return f"Course Code: {self.code} \nClass: {self.Class} \nTitle: {self.title} \nInstructor: {self.instructor} \nDays: {self.days} \nTime: {self.time} \nRoom: {self.room} \nBuilding: {self.building}"
-with open('index.html', encoding='utf-8') as html_file:
-    soup = BeautifulSoup(html_file, 'lxml')
-table = soup.find('table')
-table_rows = table.find_all('tr')
-Courses = []
-for row in table_rows[1:]:
-    row = row.text.strip().split("\n")
-    row = [x.strip() for x in row if len(x.strip()) > 0]
-    Courses.append(Course(row))
+    
+def get_courses():
+    with open('index.html', encoding='utf-8') as html_file:
+        soup = BeautifulSoup(html_file, 'lxml')
+    table = soup.find('table')
+    table_rows = table.find_all('tr')
+    Courses = []
+    for row in table_rows[1:]:
+        row = row.text.strip().split("\n")
+        row = [x.strip() for x in row if len(x.strip()) > 0]
+        Courses.append(Course(row))
+    return Courses
