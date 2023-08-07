@@ -7,8 +7,8 @@ from courses import Course, get_courses
 from datetime import datetime, timedelta
 
 c = Calendar()
-start = datetime(2023, 3, 28)
-end = datetime(2023, 7, 28)
+start = datetime(2023, 8, 1)
+end = datetime(2023, 9, 1)
 
 days = {"M": 0, "T": 1, "W": 2, "R": 3, "F": 4, "S": 5, "U": 6}
 rrdays = {"M": "MO", "T": "TU", "W": "WE", "R": "TH", "F": "FR", "S": "SA", "U": "SU"}
