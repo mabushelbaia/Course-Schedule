@@ -31,13 +31,11 @@ class Schedule:
 
     # A function  to get the next weekday from a given date
     def next_weekday(self, days) -> datetime.datetime:
-        min_date = 7
-        for day in days:
-            days_ahead = wdays[day] - self.start_date.weekday()
-            if days_ahead < min_date and days_ahead >= 0:
-                min_date = days_ahead
-        return self.start_date + datetime.timedelta(days=min_date)
-
+        w_days = [wdays[x] for x in days]
+        current_day = self.start_date.weekday()
+        # Get the next day that is in the list of days (Minimum Difference)
+        next_day = min(w_days, key=lambda x: (x - current_day) % 7)
+        return self.start_date + datetime.timedelta(days=(next_day - current_day)%7)
     def read_courses(self) -> None:
         try:
             with open('index.html', encoding='utf-8') as html_file:
