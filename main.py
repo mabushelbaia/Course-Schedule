@@ -63,7 +63,6 @@ class Schedule:
                                  row['Room']).strip().split()
             self.df.at[index, 'Room'] = row['Room']
             if len(row['Room']) - 1:  # check if it has multiple rooms => create multiple events
-                print(row['Course Title'], row['Room'])
                 for i, room in enumerate(row['Room']):
                     e = Event()
                     start_time = datetime.datetime.strptime(
@@ -113,8 +112,9 @@ class Schedule:
 if __name__ == '__main__':
     # start_date = input("Enter the start date (YYYY-MM-DD): ")
     # end_date = input("Enter the end date (YYYY-MM-DD): ")
-    start_date = "2023-9-23"
-    end_date = "2024-1-22"
+    start_date = "2024-2-24"
+    end_date = "2024-6-15"
     schedule = Schedule(start_date, end_date)
     schedule.to_ical()
-    print(schedule)
+
+        

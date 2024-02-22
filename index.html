@@ -1,1050 +1,431 @@
+
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <title>hemis-student</title>
+<html xmlns="http://www.w3.org/1999/xhtml" >
+    <head>
+        <title>hemis-student</title>
 
-    <meta
-      name="Description"
-      content="ritaj.birzeit.edu - Academic and Administrative Portal for Birzeit, the Palestinian University in the West Bank."
-    />
-    <meta
-      name="keywords"
-      content="Ritaj, Palestine, Jerusalem, Alquds, Ramallah, Birzeit, Bir Zeit, University, Israeli Palestinian conflict, Israel, Palistine, Peace Process, Hebron, Bethlehem, International Programme, International Program, Palestinian Legislative Council, PLO, Palestine Liberation Organisation, Palestinian National Authority, Palestinian Authority, PNA, PA, Palestinian, Israelis,  Oslo Agreements, West Bank, Gaza, Gaza Strip, Middle East, Al-Quds, Palestinian Culture, Arab World, Oslo, Al Quds, Palestinian Refugees, Al-Nakba, Edward Said, Naji Ali, Egypt, Jordan, Arabic"
-    />
-    <meta http-equiv="Content-Style-Type" content="text/css" />
-    <meta http-equiv="Content-Script-Type" content="text/javascript" />
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+        
+        <meta name="Description" content="ritaj.birzeit.edu - Academic and Administrative Portal for Birzeit, the Palestinian University in the West Bank." />
+        <meta name="keywords" content="Ritaj, Palestine, Jerusalem, Alquds, Ramallah, Birzeit, Bir Zeit, University, Israeli Palestinian conflict, Israel, Palistine, Peace Process, Hebron, Bethlehem, International Programme, International Program, Palestinian Legislative Council, PLO, Palestine Liberation Organisation, Palestinian National Authority, Palestinian Authority, PNA, PA, Palestinian, Israelis,  Oslo Agreements, West Bank, Gaza, Gaza Strip, Middle East, Al-Quds, Palestinian Culture, Arab World, Oslo, Al Quds, Palestinian Refugees, Al-Nakba, Edward Said, Naji Ali, Egypt, Jordan, Arabic" />
+        <meta http-equiv="Content-Style-Type" content="text/css" />
+        <meta http-equiv="Content-Script-Type" content="text/javascript" />
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+        
+        <link rel="shortcut icon" href="/images/favicon.ico" type="image/vnd.microsoft.icon" />
+        <link rel="stylesheet" type="text/css" href="/resources/jquery/css/jquery-ui-latest.custom.css"  media="all" />
+        <link rel="stylesheet" type="text/css" href="/resources/master.min.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="/resources/css/font-awesome.min.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="/resources/css/introjs.min.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="/resources/css/introjs-rtl.min.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="/resources/css/master.css" media="all" />
+        
+        <script src="/resources/ac.js"></script>
+        <script src="/resources/acs-subsite/core.js"></script>
+        <script src="/resources/jquery/jquery-latest.min.js"></script>
+        <script src="/resources/jquery/jquery-ui-latest.custom.min.js"></script>
+        <script src="/resources/intro.min.js"></script>
+        <script src="/resources/default.js"></script>
+        <script src="/resources/default2.js"></script>
+        
+            <script type="text/javascript">
+                var menuList = new Array();menuList[menuList.length] = {label: 'Academic - أكاديمي', value: 'javascript:undefined'};menuList[menuList.length] = {label: 'Course Schedule - البرنامج الفصلي', value: '/student/schedule'};menuList[menuList.length] = {label: 'Course Browser - مستعرض المساقات', value: '/hemis/bu/hierarchy?mode=CB'};menuList[menuList.length] = {label: 'W Request - طلب الإنسحاب من مساق (W)', value: '/student/withdraw/'};menuList[menuList.length] = {label: 'Student Final Exam Schedule - برنامج الإمتحانات النهائي', value: '/student/final-schedule'};menuList[menuList.length] = {label: 'Academic Applications - Specalization &amp; Transfer - الطلبات الأكاديمية - التحويل والتخصص', value: '/acap/application'};menuList[menuList.length] = {label: 'Education Diploma Program Application - طلب دبلوم تربية', value: '/student/forms/minor-diploma/'};menuList[menuList.length] = {label: 'Practical Training - التدريب العملي', value: '/student/training/report'};menuList[menuList.length] = {label: 'Claiming Minor - التسجيل لتخصص فرعي', value: '/student/forms/minor-diploma/minor/'};menuList[menuList.length] = {label: 'Academic Research Proposals - مشاريع الأبحاث الأكاديمية', value: '/instructor/proposals/list'};menuList[menuList.length] = {label: 'Academic Mobility - Academic Mobility', value: '/be1/en/academic/mobility'};menuList[menuList.length] = {label: 'Devices Reservation Requests - طلبات حجز الأجهزة', value: '/be1/en/student/devices-reservation'};menuList[menuList.length] = {label: 'Withdraw from the University Request - تقديم طلب انسحاب من الجامعة', value: '/be1/en/student/gcr-clearance/'};menuList[menuList.length] = {label: 'Financial - مالي', value: 'javascript:undefined'};menuList[menuList.length] = {label: 'Siblings Scholarship - منحة الأخوة', value: '/student/scholarships/list-brother-scholarship'};menuList[menuList.length] = {label: 'Administration - إداري', value: 'javascript:undefined'};menuList[menuList.length] = {label: 'Faculty Transfer Conditions - شروط التحويل بين الكليات', value: '/acap/transfer-conditions/list'};menuList[menuList.length] = {label: 'Work and Break Time Schedule for Departments - مواعيد دوام واستراحة الدوائر في الجامعة', value: '/dept-schedule/'};menuList[menuList.length] = {label: 'Complaints and Suggestions - شكاوى واقتراحات', value: '/suggestions/'};menuList[menuList.length] = {label: 'Personal Profile - الملف الشخصي', value: 'javascript:undefined'};menuList[menuList.length] = {label: 'My Contact Information - معلومات الإتصال', value: '/person-maintained/contact-info'};menuList[menuList.length] = {label: 'Library Books - الاستعارة من المكتبة', value: '/library/user-docs-status'};menuList[menuList.length] = {label: 'User Settings - الإعدادات الشخصية', value: '/users/'};menuList[menuList.length] = {label: 'Assign Appointments - حجز المواعيد (الساعات المكتبية،العيادات...)', value: '/appointments/'};menuList[menuList.length] = {label: 'Alerts via SMS - التنبيهات عبر الرسائل القصيرة', value: '/be1/ar/core/services/mobile-communication-select'};menuList[menuList.length] = {label: 'Cafeteria Prices - أسعار البيع في كافتريات الجامعة', value: '/cafeteria/2023/'};menuList[menuList.length] = {label: 'Eduroam network - Eduroam شبكة', value: '/be1/application/network-access/list-edu-roam-devices'};menuList[menuList.length] = {label: 'Services Requests - طلبات الدعم', value: 'javascript:undefined'};menuList[menuList.length] = {label: 'Drug Information Center - مركز المعلومات الدوائية', value: '/be1/medical/d-i-c/'};menuList[menuList.length] = {label: 'Student Menu - قائمة الطلبة', value: 'javascript:undefined'};menuList[menuList.length] = {label: 'Academic Record - السجل الأكاديمي', value: '/student/marks/term-summary'};menuList[menuList.length] = {label: 'Financial Record - السجل المالي', value: '/student/fin-balance'};menuList[menuList.length] = {label: 'Published Grades (1 st, HW, ..) - علامات الفصل (الإمتحان الأول، الثاني، ...)', value: '/student/marks/grades-sheet'};menuList[menuList.length] = {label: 'Community Work Record - سجل العمل التعاوني', value: '/student/comm-work'};menuList[menuList.length] = {label: 'Academic Messages - الرسائل الأكاديمية', value: '/student/academic-msgs/'};menuList[menuList.length] = {label: 'Student Plan - خطة الطالب', value: '/student/plan/'};menuList[menuList.length] = {label: 'Registration of Community Work - تسجيل لعمل تعاوني', value: '/hemis/community-work/work-apply-form'};menuList[menuList.length] = {label: 'Exchange of academic books - تبادل الكتب الجامعية', value: '/student/books/'};menuList[menuList.length] = {label: 'Authorization System - نظام التخويل', value: '/student/authorizations/'};menuList[menuList.length] = {label: 'Advisory Plan Sheet - الخطة الإرشادية للتخصص', value: '/student/plan/advisory-sheet/'};menuList[menuList.length] = {label: 'Scholarship Application - طلب منحة دراسية', value: '/be1/financial/student-aid/list-student-applications'};menuList[menuList.length] = {label: 'Student Employment - العمل الطلابي مدفوع الأجر', value: '/student/paid-work/student'};menuList[menuList.length] = {label: 'Hour Exams Dates - تواريخ الإمتحانات الشهرية', value: '/student/hour-exams'};menuList[menuList.length] = {label: 'Masari Certificate - شهادة مساري', value: '/be1/student/marks/masari-certificate'};menuList[menuList.length] = {label: 'Visits Permissions - أذونات الزيارة', value: '/be1/en/student/students-visits/my-visitors'};menuList[menuList.length] = {label: 'Management Tasks - مهام إدارية', value: 'javascript:undefined'};menuList[menuList.length] = {label: 'Recommendation Requests - طلب توصية', value: '/student/forms/recommendation'};menuList[menuList.length] = {label: 'University Library - مكتبة الجامعة', value: '/library/'};menuList[menuList.length] = {label: 'University Laws and Regulations - قوانين وأنظمة الجامعة', value: '/university-laws/?root_node_id=100'};menuList[menuList.length] = {label: 'Solidarity Fund Instructions - تعليمات صندوق التضامن', value: '/hrm/forms/forms/solidarity/Solidarity_Fund_instructions'};menuList[menuList.length] = {label: 'Administrative Manual - الدليل الإداري', value: '/hrm/forms/forms/?file=admin-manual'};menuList[menuList.length] = {label: 'Hospitalities Prices in Central Cafeteria - اسعار الضيافات في الكافتريا المركزية', value: '/cafeteria/cafteria-official-prices'};
+            </script>
+        
+        
+    </head>
+    <body dir="rtl" class="rtl" >
+        
+            <div class="master-header" dir="rtl">
+                <div class="header-top">
+                    <a class="ritaj-logo" href="/">
+                        <img src="/images/ritaj-logo.png" />
+                    </a>
+                    <div class="site-name">
+                        البوابة الأكاديمية والإدارية لجامعة بيرزيت
+                        <div class="print-header">
+                            <br/>
+                            محمد ابو شلبايه | 
+                            February 23, 2024 01:04 | 213.6.76.171
+                        </div>
+                    </div>
+                    <div class="user-area">
+                        
+                            <ul class="user-menu" data-step="1" data-intro="روابط المستخدم">
+                                
+                                <li>
+                                    <a data-load-part="notifications" href="#">
+                                        <i class="fa fa-circle notification-icon" style="left: 5px;"></i>
+                                        <i class="fa fa-bell fa-2x"></i>
+                                        <div class="menu-title">اشعارات</div>
+                                    </a>
+                                    <i class="fa fa-caret-up fa-2x open-indicator" aria-hidden="true"></i>
+                                </li>
+                                <li>
+                                    <a data-load-part="boards" href="#" class="notification-star">
+                                        <i class="fa fa-circle notification-icon" style="left: 0px;"></i>
+                                        <i class="fa fa-newspaper-o fa-2x"></i>
+                                        <div class="menu-title">اعلانات</div>
+                                    </a>
+                                    <i class="fa fa-caret-up fa-2x open-indicator" aria-hidden="true"></i>
+                                </li>
+                                <li>
+                                    <a data-load-part="messages" href="#" >
+                                        <i class="fa fa-circle notification-icon" style="left: 0px;"></i>
+                                        <i class="fa fa-envelope fa-2x"></i>
+                                        <div class="menu-title">رسائل</div>
+                                    </a>
+                                    <i class="fa fa-caret-up fa-2x open-indicator" aria-hidden="true"></i>
+                                </li>
+                                <li>
+                                    <a data-load-part="account" href="#">
+                                        <i class="fa fa-user fa-2x"></i>
+                                        <div class="menu-title">حسابي</div>
+                                    </a>
+                                    <i class="fa fa-caret-up fa-2x open-indicator" aria-hidden="true"></i>
+                                </li>
+                            </ul>
+                            <div class="user-menu-loaded-parts"></div>
+                         
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="header-bottom clearfix">
+                    
+                        <div class="search-form">
+                            
+                                <input type="text" id="srch_menu" autocomplete="off" size="50" dir="rtl" placeholder="ابدأ بالكتابة للبحث في القوائم"  data-step="4" data-intro="بحث عن روابط رتاج"/>
+                            
+                        </div>
+                    
+                </div>
+            </div>
+        
+        <div id="slave" style="clear:both;" data-step="3" data-intro="روابط وصفحات الصناديق الرئيسية">
+			<!--[if lt IE 11]>
+                <p class="wbr" style="text-align: center; font-weight: bold; color: red; background-color:#FEFF8F; padding:0.2em; margin:0.4em;">
+                   أنت تستخدم متصفح <strong>غير مدعوم</strong>  <br /> نرجو <a target='_blank' href='http://browsehappy.com/'> تحديث المتصفح </a> من أجل استخدام أفضل لريتاج.
+                </p>
+            <![endif]-->
+            <!-- Content Content Start -->
+            
+<style>
+	th {
+		font-family: Tahoma, Verdana;
+		font-size: 12px;
+		font-weight: bold;
+		text-decoration: none;
+		background: #ababab;
+		border: 1px solid #000000;
+		padding: 2px;
+		text-align: center;
+	}
+</style>
 
-    <link
-      rel="shortcut icon"
-      href="/images/favicon.ico"
-      type="image/vnd.microsoft.icon"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/resources/jquery/css/jquery-ui-latest.custom.css"
-      media="all"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/resources/master.min.css"
-      media="all"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/resources/css/font-awesome.min.css"
-      media="all"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/resources/css/introjs.min.css"
-      media="all"
-    />
-
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/resources/css/master.css"
-      media="all"
-    />
-
-    <script src="/resources/ac.js"></script>
-    <script src="/resources/acs-subsite/core.js"></script>
-    <script src="/resources/jquery/jquery-latest.min.js"></script>
-    <script src="/resources/jquery/jquery-ui-latest.custom.min.js"></script>
-    <script src="/resources/intro.min.js"></script>
-    <script src="/resources/default.js"></script>
-    <script src="/resources/default2.js"></script>
-
-    <script type="text/javascript">
-      var menuList = new Array();
-      menuList[menuList.length] = {
-        label: "Academic - أكاديمي",
-        value: "javascript:undefined",
-      };
-      menuList[menuList.length] = {
-        label: "Course Schedule - البرنامج الفصلي",
-        value: "/student/schedule",
-      };
-      menuList[menuList.length] = {
-        label: "Course Browser - مستعرض المساقات",
-        value: "/hemis/bu/hierarchy?mode=CB",
-      };
-      menuList[menuList.length] = {
-        label: "W Request - طلب الإنسحاب من مساق (W)",
-        value: "/student/withdraw/",
-      };
-      menuList[menuList.length] = {
-        label:
-          "Academic Applications - Specalization &amp; Transfer - الطلبات الأكاديمية - التحويل والتخصص",
-        value: "/acap/application",
-      };
-      menuList[menuList.length] = {
-        label: "Education Diploma Program Application - طلب دبلوم تربية",
-        value: "/student/forms/minor-diploma/",
-      };
-      menuList[menuList.length] = {
-        label: "Practical Training - التدريب العملي",
-        value: "/student/training/report",
-      };
-      menuList[menuList.length] = {
-        label: "Claiming Minor - التسجيل لتخصص فرعي",
-        value: "/student/forms/minor-diploma/minor/",
-      };
-      menuList[menuList.length] = {
-        label: "Academic Research Proposals - مشاريع الأبحاث الأكاديمية",
-        value: "/instructor/proposals/list",
-      };
-      menuList[menuList.length] = {
-        label: "Academic Mobility - Academic Mobility",
-        value: "/be1/en/academic/mobility",
-      };
-      menuList[menuList.length] = {
-        label: "Devices Reservation Requests - طلبات حجز الأجهزة",
-        value: "/be1/en/student/devices-reservation",
-      };
-      menuList[menuList.length] = {
-        label:
-          "Withdraw from the University Request - تقديم طلب انسحاب من الجامعة",
-        value: "/be1/en/student/gcr-clearance/",
-      };
-      menuList[menuList.length] = {
-        label: "Financial - مالي",
-        value: "javascript:undefined",
-      };
-      menuList[menuList.length] = {
-        label: "Siblings Scholarship - منحة الأخوة",
-        value: "/student/scholarships/list-brother-scholarship",
-      };
-      menuList[menuList.length] = {
-        label: "Administration - إداري",
-        value: "javascript:undefined",
-      };
-      menuList[menuList.length] = {
-        label: "Faculty Transfer Conditions - شروط التحويل بين الكليات",
-        value: "/acap/transfer-conditions/list",
-      };
-      menuList[menuList.length] = {
-        label:
-          "Work and Break Time Schedule for Departments - مواعيد دوام واستراحة الدوائر في الجامعة",
-        value: "/dept-schedule/",
-      };
-      menuList[menuList.length] = {
-        label: "Complaints and Suggestions - شكاوى واقتراحات",
-        value: "/suggestions/",
-      };
-      menuList[menuList.length] = {
-        label: "Personal Profile - الملف الشخصي",
-        value: "javascript:undefined",
-      };
-      menuList[menuList.length] = {
-        label: "My Contact Information - معلومات الإتصال",
-        value: "/person-maintained/contact-info",
-      };
-      menuList[menuList.length] = {
-        label: "Library Books - الاستعارة من المكتبة",
-        value: "/library/user-docs-status",
-      };
-      menuList[menuList.length] = {
-        label: "User Settings - الإعدادات الشخصية",
-        value: "/users/",
-      };
-      menuList[menuList.length] = {
-        label:
-          "Assign Appointments - حجز المواعيد (الساعات المكتبية،العيادات...)",
-        value: "/appointments/",
-      };
-      menuList[menuList.length] = {
-        label: "Alerts via SMS - التنبيهات عبر الرسائل القصيرة",
-        value: "/be1/ar/core/services/mobile-communication-select",
-      };
-      menuList[menuList.length] = {
-        label: "Cafeteria Prices - أسعار البيع في كافتريات الجامعة",
-        value: "/cafeteria/2023/",
-      };
-      menuList[menuList.length] = {
-        label: "Eduroam network - Eduroam شبكة",
-        value: "/be1/application/network-access/list-edu-roam-devices",
-      };
-      menuList[menuList.length] = {
-        label: "Services Requests - طلبات الدعم",
-        value: "javascript:undefined",
-      };
-      menuList[menuList.length] = {
-        label: "Drug Information Center - مركز المعلومات الدوائية",
-        value: "/be1/medical/d-i-c/",
-      };
-      menuList[menuList.length] = {
-        label: "Student Menu - قائمة الطلبة",
-        value: "javascript:undefined",
-      };
-      menuList[menuList.length] = {
-        label: "Academic Record - السجل الأكاديمي",
-        value: "/student/marks/term-summary",
-      };
-      menuList[menuList.length] = {
-        label: "Financial Record - السجل المالي",
-        value: "/student/fin-balance",
-      };
-      menuList[menuList.length] = {
-        label:
-          "Published Grades (1 st, HW, ..) - علامات الفصل (الإمتحان الأول، الثاني، ...)",
-        value: "/student/marks/grades-sheet",
-      };
-      menuList[menuList.length] = {
-        label: "Community Work Record - سجل العمل التعاوني",
-        value: "/student/comm-work",
-      };
-      menuList[menuList.length] = {
-        label: "Academic Messages - الرسائل الأكاديمية",
-        value: "/student/academic-msgs/",
-      };
-      menuList[menuList.length] = {
-        label: "Student Plan - خطة الطالب",
-        value: "/student/plan/",
-      };
-      menuList[menuList.length] = {
-        label: "Registration of Community Work - تسجيل لعمل تعاوني",
-        value: "/hemis/community-work/work-apply-form",
-      };
-      menuList[menuList.length] = {
-        label: "Exchange of academic books - تبادل الكتب الجامعية",
-        value: "/student/books/",
-      };
-      menuList[menuList.length] = {
-        label: "Authorization System - نظام التخويل",
-        value: "/student/authorizations/",
-      };
-      menuList[menuList.length] = {
-        label: "Advisory Plan Sheet - الخطة الإرشادية للتخصص",
-        value: "/student/plan/advisory-sheet/",
-      };
-      menuList[menuList.length] = {
-        label: "Scholarship Application - طلب منحة دراسية",
-        value: "/be1/financial/student-aid/list-student-applications",
-      };
-      menuList[menuList.length] = {
-        label: "Student Employment - العمل الطلابي مدفوع الأجر",
-        value: "/student/paid-work/student",
-      };
-      menuList[menuList.length] = {
-        label: "Hour Exams Dates - تواريخ الإمتحانات الشهرية",
-        value: "/student/hour-exams",
-      };
-      menuList[menuList.length] = {
-        label: "Masari Certificate - شهادة مساري",
-        value: "/be1/student/marks/masari-certificate",
-      };
-      menuList[menuList.length] = {
-        label: "Visits Permissions - أذونات الزيارة",
-        value: "/be1/en/student/students-visits/my-visitors",
-      };
-      menuList[menuList.length] = {
-        label: "Management Tasks - مهام إدارية",
-        value: "javascript:undefined",
-      };
-      menuList[menuList.length] = {
-        label: "Recommendation Requests - طلب توصية",
-        value: "/student/forms/recommendation",
-      };
-      menuList[menuList.length] = {
-        label: "University Library - مكتبة الجامعة",
-        value: "/library/",
-      };
-      menuList[menuList.length] = {
-        label: "University Laws and Regulations - قوانين وأنظمة الجامعة",
-        value: "/university-laws/?root_node_id=100",
-      };
-      menuList[menuList.length] = {
-        label: "Solidarity Fund Instructions - تعليمات صندوق التضامن",
-        value: "/hrm/forms/forms/solidarity/Solidarity_Fund_instructions",
-      };
-      menuList[menuList.length] = {
-        label: "Administrative Manual - الدليل الإداري",
-        value: "/hrm/forms/forms/?file=admin-manual",
-      };
-      menuList[menuList.length] = {
-        label:
-          "Hospitalities Prices in Central Cafeteria - اسعار الضيافات في الكافتريا المركزية",
-        value: "/cafeteria/cafteria-official-prices",
-      };
-    </script>
-  </head>
-  <body dir="ltr" class="ltr">
-    <div class="master-header" dir="ltr">
-      <div class="header-top">
-        <a class="ritaj-logo" href="/">
-          <img src="/images/ritaj-logo.png" />
-        </a>
-        <div class="site-name">
-          Birzeit University Academic and Administrative Portal
-          <div class="print-header">
-            <br />
-            Mohammad Abu Shelbaia | September 21, 2023 13:31 | 213.6.76.189
-          </div>
-        </div>
-        <div class="user-area">
-          <ul class="user-menu" data-step="1" data-intro="User account links">
-            <li>
-              <a data-load-part="notifications" href="#">
-                <i
-                  class="fa fa-circle notification-icon"
-                  style="right: 20px"
-                ></i>
-                <i class="fa fa-bell fa-2x"></i>
-                <div class="menu-title">Notifications</div>
-              </a>
-              <i
-                class="fa fa-caret-up fa-2x open-indicator"
-                aria-hidden="true"
-              ></i>
-            </li>
-            <li>
-              <a data-load-part="boards" href="#" class="notification-star">
-                <i
-                  class="fa fa-circle notification-icon"
-                  style="right: 0px"
-                ></i>
-                <i class="fa fa-newspaper-o fa-2x"></i>
-                <div class="menu-title">Boards</div>
-              </a>
-              <i
-                class="fa fa-caret-up fa-2x open-indicator"
-                aria-hidden="true"
-              ></i>
-            </li>
-            <li>
-              <a data-load-part="messages" href="#">
-                <i
-                  class="fa fa-circle notification-icon"
-                  style="right: 8px"
-                ></i>
-                <i class="fa fa-envelope fa-2x"></i>
-                <div class="menu-title">Messages</div>
-              </a>
-              <i
-                class="fa fa-caret-up fa-2x open-indicator"
-                aria-hidden="true"
-              ></i>
-            </li>
-            <li>
-              <a data-load-part="account" href="#">
-                <i class="fa fa-user fa-2x"></i>
-                <div class="menu-title">Account</div>
-              </a>
-              <i
-                class="fa fa-caret-up fa-2x open-indicator"
-                aria-hidden="true"
-              ></i>
-            </li>
-          </ul>
-          <div class="user-menu-loaded-parts"></div>
-        </div>
-        <div class="clearfix"></div>
-      </div>
-      <div class="header-bottom clearfix">
-        <div class="search-form">
-          <input
-            type="text"
-            id="srch_menu"
-            autocomplete="off"
-            size="50"
-            dir="ltr"
-            placeholder="Type to search menu"
-            data-step="4"
-            data-intro="Search boxes links"
-          />
-        </div>
-      </div>
-    </div>
-
-    <div
-      id="slave"
-      style="clear: both"
-      data-step="3"
-      data-intro="Pages boxes and links"
-    >
-      <!--[if lt IE 11]>
-        <p
-          class="wbr"
-          style="
-            text-align: center;
-            font-weight: bold;
-            color: red;
-            background-color: #feff8f;
-            padding: 0.2em;
-            margin: 0.4em;
-          "
-        >
-          You are using an <strong>outdated</strong> browser. <br />
-          Please
-          <a target="_blank" href="http://browsehappy.com/"
-            >upgrade your browser</a
-          >
-          to improve your experience.
-        </p>
-      <![endif]-->
-      <!-- Content Content Start -->
-
-      <style>
-        th {
-          font-family: Tahoma, Verdana;
-          font-size: 12px;
-          font-weight: bold;
-          text-decoration: none;
-          background: #ababab;
-          border: 1px solid #000000;
-          padding: 2px;
-          text-align: center;
+<script>
+$(function() {
+    $(document.body).on('keyup', function(e) {
+        if (e.which == 37) {
+            $('#previous_schedule')[0].click();
+        } else if (e.which == 39) {
+            $('#next_schedule')[0].click();
         }
-      </style>
+    });
+});
+</script>
 
-      <script>
-        $(function () {
-          $(document.body).on("keyup", function (e) {
-            if (e.which == 37) {
-              $("#previous_schedule")[0].click();
-            } else if (e.which == 39) {
-              $("#next_schedule")[0].click();
+
+<h3 align="center" dir="ltr">
+    
+        <a class='go-to-schedule' id='previous_schedule' href="schedule?student=1200198&term=1231" style="font-size: 10pt">Previous Term</a>&nbsp;&nbsp;&nbsp;&nbsp;
+     
+    Second Semester 2023/2024 
+     
+</h3>
+
+<p dir="ltr" align="center"><b>Name:</b> Mohammad Monther Abu Shelbaia&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Student Number:</b> 1200198</p>
+<p dir="ltr" align="center"><b>College:</b> Faculty Of Engineering And Technology&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Major:</b> Bachelor Program of Computer Engineering</p>
+
+
+
+<br />
+<br />
+
+	<table cellpadding="3" cellspacing="3" width="100%" dir="ltr">
+		<tr>
+			<th>Course Label</th>
+			<th width="5%">Class</th>
+			<th>Course Title</th>
+			<th>Instructor</th>
+			<th>Days</th>
+			<th>time</th>
+			<th>Room Number</th>
+		</tr>
+		
+			<tr valign="middle">
+				<td>
+					<a href="/bzu-msgs/type?mttid=104&classid=215966">
+					CULS331
+					</a>
+				</td>
+				<td align="center">8</td>
+				<td>MODERN AND CONTEMPORARY EUROPEAN CIVILIZATION</td>
+				<td><a href="view_office_hr?employee_id=8328" title="Click to View Office Hours">Najat Abdulhaq</a></td>
+				<style>
+   .info {
+        display: none;
+        background: #457BBB;
+        font-size: 14px;
+        color: black;
+    }
+</style>
+<td align="center">
+    T, R
+    
+</td>
+<td align="center">09:30 - 10:50</td>
+<td align="center"><a href='#' onclick='$("#2AaShaheen116").slideToggle();' >A.Shaheen116 </a> <span id='2AaShaheen116' class=info><br/>مبنى عزيز شاهين-كلية الآداب</span></td>
+			</tr>
+		
+			<tr valign="middle" bgcolor="#efefef">
+				<td>
+					<a href="/bzu-msgs/type?mttid=104&classid=215994">
+					CULS332
+					</a>
+				</td>
+				<td align="center">16</td>
+				<td>MODERN AND CONTEMPORARY ARAB THOUGHT</td>
+				<td><a href="view_office_hr?employee_id=7283" title="Click to View Office Hours">Basil Farraj</a></td>
+				<style>
+   .info {
+        display: none;
+        background: #457BBB;
+        font-size: 14px;
+        color: black;
+    }
+</style>
+<td align="center">
+    T, R
+    
+</td>
+<td align="center">11:00 - 12:20</td>
+<td align="center"><a href='#' onclick='$("#2Bamieh201").slideToggle();' >Bamieh201 </a> <span id='2Bamieh201' class=info><br/>مبنى محمد عمران بامية-كلية التربية</span></td>
+			</tr>
+		
+			<tr valign="middle">
+				<td>
+					<a href="/bzu-msgs/type?mttid=104&classid=214757">
+					ECON3372
+					</a>
+				</td>
+				<td align="center">4</td>
+				<td>PROJECT MANAGEMENT AND ECONOMICS FOR ENGINEERING STUDENTS</td>
+				<td><a href="view_office_hr?employee_id=6820" title="Click to View Office Hours">Tareq Ashour</a></td>
+				<style>
+   .info {
+        display: none;
+        background: #457BBB;
+        font-size: 14px;
+        color: black;
+    }
+</style>
+<td align="center">
+    T, R
+    
+</td>
+<td align="center">12:30 - 13:50</td>
+<td align="center"><a href='#' onclick='$("#2OaAbdulhadi251").slideToggle();' >O.Abdulhadi251 </a> <span id='2OaAbdulhadi251' class=info><br/>مبنى عمر عبد الهادي-كلية الأعمال والاقتصاد</span></td>
+			</tr>
+		
+			<tr valign="middle" bgcolor="#efefef">
+				<td>
+					<a href="/bzu-msgs/type?mttid=104&classid=216349">
+					ENCS4300
+					</a>
+				</td>
+				<td align="center">1</td>
+				<td>PRACTICAL TRAINING</td>
+				<td><a href="view_office_hr?employee_id=5005" title="Click to View Office Hours">Mohammed Hussein</a></td>
+				<style>
+   .info {
+        display: none;
+        background: #457BBB;
+        font-size: 14px;
+        color: black;
+    }
+</style>
+<td align="center">
+    N/A
+    
+</td>
+<td align="center">N/A</td>
+<td align="center">N/A</td>
+			</tr>
+		
+			<tr valign="middle">
+				<td>
+					<a href="/bzu-msgs/type?mttid=104&classid=216429">
+					ENCS5140
+					</a>
+				</td>
+				<td align="center">3</td>
+				<td>REAL-TIME SYSTEM AND INTERFACING TECHNIQUES LABORATORY</td>
+				<td><a href="view_office_hr?employee_id=2630" title="Click to View Office Hours">Wasel Ghanem</a></td>
+				<style>
+   .info {
+        display: none;
+        background: #457BBB;
+        font-size: 14px;
+        color: black;
+    }
+</style>
+<td align="center">
+    R
+    
+</td>
+<td align="center">14:00 - 16:50</td>
+<td align="center"><a href='#' onclick='$("#2Masri506").slideToggle();' >Masri506 </a> <span id='2Masri506' class=info><br/>مبنى منيب رشيد المصري-تكنولوجيا المعلومات</span></td>
+			</tr>
+		
+	</table>
+	<br/>
+    
+        <script>
+        if(!highlightTableTime) {
+            function highlightTableTime(tableId) {
+                for (var i = 1; i < arguments.length; i++) {
+                    var slotInfo = arguments[i].split('|');
+                    var d = slotInfo[0], st = slotInfo[1], et = slotInfo[2], content = (slotInfo[3] ? slotInfo[3] : '&nbsp;');
+                    var start_edge = ((st - (7 * 60 * 60)) * 7) / (60 * 5) + 84;
+                    var class_width = ((et - st) * 7) / (60 * 5);
+                    var highlightContent = "<div class='meeting highlight " + d + st + et + "' style='width:" + class_width + "px;color:#fff;background-color:#333;left:" + start_edge + "px;top:0px;'>" + content + "</div>";
+                    $('div[class^="schedule' + tableId + '"] .schedule-day-' + d).append(highlightContent);
+                }
             }
-          });
-        });
-      </script>
-
-      <h3 align="center" dir="ltr">
-        <a
-          class="go-to-schedule"
-          id="previous_schedule"
-          href="schedule?student=1200198&term=1223"
-          style="font-size: 10pt"
-          >Previous Term</a
-        >&nbsp;&nbsp;&nbsp;&nbsp; First Semester 2023/2024
-      </h3>
-
-      <p dir="ltr" align="center">
-        <b>Name:</b> Mohammad Monther Abu
-        Shelbaia&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b
-          >Student Number:</b
-        >
-        1200198
-      </p>
-      <p dir="ltr" align="center">
-        <b>College:</b> Faculty Of Engineering And
-        Technology&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b
-          >Major:</b
-        >
-        Bachelor Program of Computer Engineering
-      </p>
-
-      <br />
-      <br />
-
-      <table cellpadding="3" cellspacing="3" width="100%" dir="ltr">
-        <tr>
-          <th>Course Label</th>
-          <th width="5%">Class</th>
-          <th>Course Title</th>
-          <th>Instructor</th>
-          <th>Days</th>
-          <th>time</th>
-          <th>Room Number</th>
-        </tr>
-
-        <tr valign="middle">
-          <td>
-            <a href="/bzu-msgs/type?mttid=104&classid=209626"> COMP433 </a>
-          </td>
-          <td align="center">3</td>
-          <td>SOFTWARE ENGINEERING</td>
-          <td>
-            <a
-              href="view_office_hr?employee_id=7882"
-              title="Click to View Office Hours"
-              >Ahmad Sabbah</a
-            >
-          </td>
-          <style>
-            .info {
-              display: none;
-              background: #457bbb;
-              font-size: 14px;
-              color: black;
-            }
-          </style>
-          <td align="center">S, M, W</td>
-          <td align="center">10:00 - 10:50</td>
-          <td align="center">
-            <a href="#" onclick='$("#2Masri306").slideToggle();'>Masri306 </a>
-            <span id="2Masri306" class="info"
-              ><br />مبنى منيب رشيد المصري-تكنولوجيا المعلومات</span
-            >
-          </td>
-        </tr>
-
-        <tr valign="middle" bgcolor="#efefef">
-          <td>
-            <a href="/bzu-msgs/type?mttid=104&classid=208088"> ENCS4380 </a>
-          </td>
-          <td align="center">2</td>
-          <td>INTERFACING TECHNIQUES</td>
-          <td>
-            <a
-              href="view_office_hr?employee_id=2630"
-              title="Click to View Office Hours"
-              >Wasel Ghanem</a
-            >
-          </td>
-          <style>
-            .info {
-              display: none;
-              background: #457bbb;
-              font-size: 14px;
-              color: black;
-            }
-          </style>
-          <td align="center">T, R</td>
-          <td align="center">12:30 - 13:50</td>
-          <td align="center">
-            <a href="#" onclick='$("#2Masri504").slideToggle();'>Masri504 </a>
-            <span id="2Masri504" class="info"
-              ><br />مبنى منيب رشيد المصري-تكنولوجيا المعلومات</span
-            >
-          </td>
-        </tr>
-
-        <tr valign="middle">
-          <td>
-            <a href="/bzu-msgs/type?mttid=104&classid=208158"> ENCS5141 </a>
-          </td>
-          <td align="center">3</td>
-          <td>INTELLIGENT SYSTEMS LAB</td>
-          <td>
-            <a
-              href="view_office_hr?employee_id=3858"
-              title="Click to View Office Hours"
-              >Mohammad Jubran</a
-            >
-          </td>
-          <style>
-            .info {
-              display: none;
-              background: #457bbb;
-              font-size: 14px;
-              color: black;
-            }
-          </style>
-          <td align="center">M</td>
-          <td align="center">14:00 - 16:50</td>
-          <td align="center">
-            <a href="#" onclick='$("#2Masri407").slideToggle();'>Masri407 </a>
-            <span id="2Masri407" class="info"
-              ><br />مبنى منيب رشيد المصري-تكنولوجيا المعلومات</span
-            >
-          </td>
-        </tr>
-
-        <tr valign="middle" bgcolor="#efefef">
-          <td>
-            <a href="/bzu-msgs/type?mttid=104&classid=208093"> ENCS5150 </a>
-          </td>
-          <td align="center">1</td>
-          <td>ADVANCED COMPUTER SYSTEMS ENGINEERING LABORATORY</td>
-          <td>
-            <a
-              href="view_office_hr?employee_id=5613"
-              title="Click to View Office Hours"
-              >Yazan Abu Farha</a
-            >
-          </td>
-          <style>
-            .info {
-              display: none;
-              background: #457bbb;
-              font-size: 14px;
-              color: black;
-            }
-          </style>
-          <td align="center">W</td>
-          <td align="center">14:00 - 16:50</td>
-          <td align="center">
-            <a href="#" onclick='$("#2WKS215").slideToggle();'>WKS215 </a>
-            <span id="2WKS215" class="info"><br />مبنى مشاغل الهندسة</span>
-          </td>
-        </tr>
-
-        <tr valign="middle">
-          <td>
-            <a href="/bzu-msgs/type?mttid=104&classid=208097"> ENCS5200 </a>
-          </td>
-          <td align="center">1</td>
-          <td>INTRODUCTION TO GRADUATION PROJECT</td>
-          <td></td>
-          <style>
-            .info {
-              display: none;
-              background: #457bbb;
-              font-size: 14px;
-              color: black;
-            }
-          </style>
-          <td align="center">N/A</td>
-          <td align="center">N/A</td>
-          <td align="center">N/A</td>
-        </tr>
-
-        <tr valign="middle" bgcolor="#efefef">
-          <td>
-            <a href="/bzu-msgs/type?mttid=104&classid=208159"> ENCS5321 </a>
-          </td>
-          <td align="center">1</td>
-          <td>ADVANCED COMPUTER NETWORKS</td>
-          <td>
-            <a
-              href="view_office_hr?employee_id=5166"
-              title="Click to View Office Hours"
-              >Ibrahim Nemer</a
-            >
-          </td>
-          <style>
-            .info {
-              display: none;
-              background: #457bbb;
-              font-size: 14px;
-              color: black;
-            }
-          </style>
-          <td align="center">T, R</td>
-          <td align="center">08:00 - 09:20</td>
-          <td align="center">
-            <a href="#" onclick='$("#2Masri304").slideToggle();'>Masri304 </a>
-            <span id="2Masri304" class="info"
-              ><br />مبنى منيب رشيد المصري-تكنولوجيا المعلومات</span
-            >
-          </td>
-        </tr>
-
-        <tr valign="middle">
-          <td>
-            <a href="/bzu-msgs/type?mttid=104&classid=208163"> ENCS5341 </a>
-          </td>
-          <td align="center">1</td>
-          <td>MACHINE LEARNING AND DATA SCIENCE</td>
-          <td>
-            <a
-              href="view_office_hr?employee_id=5613"
-              title="Click to View Office Hours"
-              >Yazan Abu Farha</a
-            >
-          </td>
-          <style>
-            .info {
-              display: none;
-              background: #457bbb;
-              font-size: 14px;
-              color: black;
-            }
-          </style>
-          <td align="center">S, M, W</td>
-          <td align="center">13:00 - 13:50</td>
-          <td align="center">
-            <a href="#" onclick='$("#2Masri302").slideToggle();'>Masri302 </a>
-            <span id="2Masri302" class="info"
-              ><br />مبنى منيب رشيد المصري-تكنولوجيا المعلومات</span
-            >
-          </td>
-        </tr>
-      </table>
-      <br />
-
-      <script>
-        if (!highlightTableTime) {
-          function highlightTableTime(tableId) {
-            for (var i = 1; i < arguments.length; i++) {
-              var slotInfo = arguments[i].split("|");
-              var d = slotInfo[0],
-                st = slotInfo[1],
-                et = slotInfo[2],
-                content = slotInfo[3] ? slotInfo[3] : "&nbsp;";
-              var start_edge = ((st - 7 * 60 * 60) * 7) / (60 * 5) + 84;
-              var class_width = ((et - st) * 7) / (60 * 5);
-              var highlightContent =
-                "<div class='meeting highlight " +
-                d +
-                st +
-                et +
-                "' style='width:" +
-                class_width +
-                "px;color:#fff;background-color:#333;left:" +
-                start_edge +
-                "px;top:0px;'>" +
-                content +
-                "</div>";
-              $(
-                'div[class^="schedule' + tableId + '"] .schedule-day-' + d
-              ).append(highlightContent);
-            }
-          }
         }
-        if (!removeTableTime) {
-          function removeTableTime(tableId) {
-            for (var i = 1; i < arguments.length; i++) {
-              var slotInfo = arguments[i].split("|");
-              var d = slotInfo[0],
-                st = slotInfo[1],
-                et = slotInfo[2],
-                content = slotInfo[3] ? slotInfo[3] : "&nbsp;";
-
-              var start_edge = ((st - 7 * 60 * 60) * 7) / (60 * 5) + 84;
-              var class_width = ((et - st) * 7) / (60 * 5);
-              var highlightContent =
-                "<div class='meeting' style='width:" +
-                class_width +
-                "px;background-color:#333;left:" +
-                start_edge +
-                "px;top:0px;'>" +
-                content +
-                "</div>";
-              $('div[class^="schedule' + tableId + '"] .schedule-day-' + d)
-                .find("div.meeting.highlight." + d + st + et)
-                .remove();
+        if(!removeTableTime) {
+            function removeTableTime(tableId) {
+                for (var i = 1; i < arguments.length; i++) {
+                    var slotInfo = arguments[i].split('|');
+                    var d = slotInfo[0], st = slotInfo[1], et = slotInfo[2], content = (slotInfo[3] ? slotInfo[3] : '&nbsp;');
+                    
+                    var start_edge = ((st - (7 * 60 * 60)) * 7) / (60 * 5) + 84;
+                    var class_width = ((et - st) * 7) / (60 * 5);
+                    var highlightContent = "<div class='meeting' style='width:" + class_width + "px;background-color:#333;left:" + start_edge + "px;top:0px;'>" + content + "</div>";
+                    $('div[class^="schedule' + tableId + '"] .schedule-day-' + d).find('div.meeting.highlight.' + d + st + et).remove();
+                }
             }
-          }
         }
-      </script>
-      <style>
-        .schedule650c1b78-605d-5dbf-bfe247e9e-25964716a624 {
-          width: 1092px;
-          direction: ltr;
-        }
-        .schedule650c1b78-605d-5dbf-bfe247e9e-25964716a624 div.row {
-          border: 1px solid black;
-          position: relative;
-          margin-top: 2px;
-        }
-        .schedule650c1b78-605d-5dbf-bfe247e9e-25964716a624 div.header {
-          height: 20px;
-          font-weight: bold;
-          background: #ababab;
-        }
-        .schedule650c1b78-605d-5dbf-bfe247e9e-25964716a624 div.header-slot {
-          position: absolute;
-          width: 84px;
-          border-left: 1px solid black;
-        }
-        .schedule650c1b78-605d-5dbf-bfe247e9e-25964716a624 div.day {
-          font-weight: bold;
-          position: absolute;
-          left: 0px;
-          width: 84px;
-          border-right: 1px solid black;
-        }
-        .schedule650c1b78-605d-5dbf-bfe247e9e-25964716a624 div.meeting {
-          height: 20px;
-          text-align: center;
-          position: absolute;
-          border-right: 1px solid #555;
-          border-left: 1px solid #555;
-          font-size: 0.85em;
-        }
-        .schedule650c1b78-605d-5dbf-bfe247e9e-25964716a624
-          div.conflict
-          div.meeting {
-          border-bottom: 1px solid black;
-          height: 19px;
-        }
-      </style>
-      <div class="schedule650c1b78-605d-5dbf-bfe247e9e-25964716a624">
-        <div class="row header">
-          <div class="header-slot" style="left: 0px; text-align: center">
-            Day
-          </div>
-          <div class="header-slot" style="left: 84px; text-align: left">7</div>
-          <div class="header-slot" style="left: 168px; text-align: left">8</div>
-          <div class="header-slot" style="left: 252px; text-align: left">9</div>
-          <div class="header-slot" style="left: 336px; text-align: left">
-            10
-          </div>
-          <div class="header-slot" style="left: 420px; text-align: left">
-            11
-          </div>
-          <div class="header-slot" style="left: 504px; text-align: left">
-            12
-          </div>
-          <div class="header-slot" style="left: 588px; text-align: left">
-            13
-          </div>
-          <div class="header-slot" style="left: 672px; text-align: left">
-            14
-          </div>
-          <div class="header-slot" style="left: 756px; text-align: left">
-            15
-          </div>
-          <div class="header-slot" style="left: 840px; text-align: left">
-            16
-          </div>
-          <div class="header-slot" style="left: 924px; text-align: left">
-            17
-          </div>
-          <div class="header-slot" style="left: 1008px; text-align: left">
-            18
-          </div>
+        </script>
+    <style>
+                        .schedule65d7d2e4-6120-2007-075b68e8b-25964716a624 {width:1092px;direction:ltr;}
+                        .schedule65d7d2e4-6120-2007-075b68e8b-25964716a624 div.row {border:1px solid black;position:relative;margin-top:2px;}
+                        .schedule65d7d2e4-6120-2007-075b68e8b-25964716a624 div.header {height:20px;font-weight:bold;background:#ababab;}
+                        .schedule65d7d2e4-6120-2007-075b68e8b-25964716a624 div.header-slot {position:absolute;width:84px;border-left:1px solid black;}
+                        .schedule65d7d2e4-6120-2007-075b68e8b-25964716a624 div.day {font-weight:bold;position:absolute;left:0px;width:84px;border-right:1px solid black;}
+                        .schedule65d7d2e4-6120-2007-075b68e8b-25964716a624 div.meeting {height:20px;text-align:center;position:absolute;border-right:1px solid #555;border-left:1px solid #555;font-size:.85em;}
+                        .schedule65d7d2e4-6120-2007-075b68e8b-25964716a624 div.conflict div.meeting {border-bottom:1px solid black; height:19px;}
+                    </style><div class='schedule65d7d2e4-6120-2007-075b68e8b-25964716a624'><div class='row header'>
+                        <div class='header-slot' style='left:0px;text-align:center;'>Day</div><div class='header-slot' style='left:84px;text-align:left;'>7</div><div class='header-slot' style='left:168px;text-align:left;'>8</div><div class='header-slot' style='left:252px;text-align:left;'>9</div><div class='header-slot' style='left:336px;text-align:left;'>10</div><div class='header-slot' style='left:420px;text-align:left;'>11</div><div class='header-slot' style='left:504px;text-align:left;'>12</div><div class='header-slot' style='left:588px;text-align:left;'>13</div><div class='header-slot' style='left:672px;text-align:left;'>14</div><div class='header-slot' style='left:756px;text-align:left;'>15</div><div class='header-slot' style='left:840px;text-align:left;'>16</div><div class='header-slot' style='left:924px;text-align:left;'>17</div><div class='header-slot' style='left:1008px;text-align:left;'>18</div></div><div class='schedule-day-0 schedule-day-S row' style='height:20px;'>
+                               <div class='day' style='height:20px;'>
+                                   Saturday
+                               </div>
+                               &nbsp;
+                           </div><div class='schedule-day-1 schedule-day-N row' style='height:20px;'>
+                               <div class='day' style='height:20px;'>
+                                   Sunday
+                               </div>
+                               &nbsp;
+                           </div><div class='schedule-day-2 schedule-day-M row' style='height:20px;'>
+                               <div class='day' style='height:20px;'>
+                                   Monday
+                               </div>
+                               &nbsp;
+                           </div><div class='schedule-day-3 schedule-day-T row' style='height:20px;'>
+                               <div class='day' style='height:20px;'>
+                                   Tuesday
+                               </div>
+                               <div class='meeting' style='width:112px;background-color:#99ffcc;left:294px;top:0px;'>CULS331</div><div class='meeting' style='width:112px;background-color:#99ffcc;left:420px;top:0px;'>CULS332</div><div class='meeting' style='width:112px;background-color:#99ffcc;left:546px;top:0px;'>ECON3372</div>
+                           </div><div class='schedule-day-4 schedule-day-W row' style='height:20px;'>
+                               <div class='day' style='height:20px;'>
+                                   Wednesday
+                               </div>
+                               &nbsp;
+                           </div><div class='schedule-day-5 schedule-day-R row' style='height:20px;'>
+                               <div class='day' style='height:20px;'>
+                                   Thursday
+                               </div>
+                               <div class='meeting' style='width:112px;background-color:#99ffcc;left:294px;top:0px;'>CULS331</div><div class='meeting' style='width:112px;background-color:#99ffcc;left:420px;top:0px;'>CULS332</div><div class='meeting' style='width:112px;background-color:#99ffcc;left:546px;top:0px;'>ECON3372</div><div class='meeting' style='width:238px;background-color:#99ffcc;left:672px;top:0px;'>ENCS5140</div>
+                           </div><div class='schedule-day-6 schedule-day-F row' style='height:20px;'>
+                               <div class='day' style='height:20px;'>
+                                   Friday
+                               </div>
+                               &nbsp;
+                           </div></div>
+
+<br />
+<br />
+<p dir="ltr" align="center"><b>Total Credit Hours:</b> 13</p>
+<br />
+<br />
+
+<br />
+<br />
+
+<br />
+<br />
+<center><hr/><h3>Academic Advisors</h3>Abdallatif Abuissa - <a href='/bzu-msgs/send?mttid=105&topicid=111&to=911'>Send a Message</a><br /></center>
+
+
+<p align="center">
+||<b>
+	
+		<a href=schedule?term=1232&student=1200198&mode=n&is_dialog=0&lang=ar>عربي</a>
+	
+</b>||
+</p>
+            <!-- Content Content End -->
         </div>
-        <div class="schedule-day-0 schedule-day-S row" style="height: 20px">
-          <div class="day" style="height: 20px">Saturday</div>
-          <div
-            class="meeting"
-            style="
-              width: 70px;
-              background-color: #99ffcc;
-              left: 336px;
-              top: 0px;
-            "
-          >
-            COMP433
-          </div>
-          <div
-            class="meeting"
-            style="
-              width: 70px;
-              background-color: #99ffcc;
-              left: 588px;
-              top: 0px;
-            "
-          >
-            ENCS5341
-          </div>
-        </div>
-        <div class="schedule-day-1 schedule-day-N row" style="height: 20px">
-          <div class="day" style="height: 20px">Sunday</div>
-          &nbsp;
-        </div>
-        <div class="schedule-day-2 schedule-day-M row" style="height: 20px">
-          <div class="day" style="height: 20px">Monday</div>
-          <div
-            class="meeting"
-            style="
-              width: 70px;
-              background-color: #99ffcc;
-              left: 336px;
-              top: 0px;
-            "
-          >
-            COMP433
-          </div>
-          <div
-            class="meeting"
-            style="
-              width: 70px;
-              background-color: #99ffcc;
-              left: 588px;
-              top: 0px;
-            "
-          >
-            ENCS5341
-          </div>
-          <div
-            class="meeting"
-            style="
-              width: 238px;
-              background-color: #99ffcc;
-              left: 672px;
-              top: 0px;
-            "
-          >
-            ENCS5141
-          </div>
-        </div>
-        <div class="schedule-day-3 schedule-day-T row" style="height: 20px">
-          <div class="day" style="height: 20px">Tuesday</div>
-          <div
-            class="meeting"
-            style="
-              width: 112px;
-              background-color: #99ffcc;
-              left: 168px;
-              top: 0px;
-            "
-          >
-            ENCS5321
-          </div>
-          <div
-            class="meeting"
-            style="
-              width: 112px;
-              background-color: #99ffcc;
-              left: 546px;
-              top: 0px;
-            "
-          >
-            ENCS4380
-          </div>
-        </div>
-        <div class="schedule-day-4 schedule-day-W row" style="height: 20px">
-          <div class="day" style="height: 20px">Wednesday</div>
-          <div
-            class="meeting"
-            style="
-              width: 70px;
-              background-color: #99ffcc;
-              left: 336px;
-              top: 0px;
-            "
-          >
-            COMP433
-          </div>
-          <div
-            class="meeting"
-            style="
-              width: 70px;
-              background-color: #99ffcc;
-              left: 588px;
-              top: 0px;
-            "
-          >
-            ENCS5341
-          </div>
-          <div
-            class="meeting"
-            style="
-              width: 238px;
-              background-color: #99ffcc;
-              left: 672px;
-              top: 0px;
-            "
-          >
-            ENCS5150
-          </div>
-        </div>
-        <div class="schedule-day-5 schedule-day-R row" style="height: 20px">
-          <div class="day" style="height: 20px">Thursday</div>
-          <div
-            class="meeting"
-            style="
-              width: 112px;
-              background-color: #99ffcc;
-              left: 168px;
-              top: 0px;
-            "
-          >
-            ENCS5321
-          </div>
-          <div
-            class="meeting"
-            style="
-              width: 112px;
-              background-color: #99ffcc;
-              left: 546px;
-              top: 0px;
-            "
-          >
-            ENCS4380
-          </div>
-        </div>
-        <div class="schedule-day-6 schedule-day-F row" style="height: 20px">
-          <div class="day" style="height: 20px">Friday</div>
-          &nbsp;
-        </div>
-      </div>
+        
+            <div class="footer_container">
+                <hr size="1" color="#ababab"/>
+                
+<div dir='rtl'>
+    <a class="hidden-xs" target="_blank" rel="noreferrer" href="https://www.birzeit.edu/">
+        <img src='/images/bzu_logo.png' style='height: 36px;margin: 2px 5px;float: right;'>
+    </a>
 
-      <br />
-      <br />
-      <p dir="ltr" align="center"><b>Total Credit Hours:</b> 16</p>
-      <br />
-      <br />
-
-      <br />
-      <br />
-
-      <br />
-      <br />
-      <center>
-        <hr />
-        <h3>Academic Advisors</h3>
-        Abdallatif Abuissa -
-        <a href="/bzu-msgs/send?mttid=105&topicid=111&to=911">Send a Message</a
-        ><br />
-      </center>
-
-      <p align="center">
-        ||<b>
-          <a
-            href="schedule?term"
-            ="1231&student"
-            ="1200198&mode"
-            ="n&is_dialog"
-            ="0&lang"
-            ="ar"
-            >عربي</a
-          > </b
-        >||
-      </p>
-      <!-- Content Content End -->
-    </div>
-
-    <div class="footer_container">
-      <hr size="1" color="#ababab" />
-
-      <div dir="ltr">
-        <a
-          class="hidden-xs"
-          target="_blank"
-          rel="noreferrer"
-          href="https://www.birzeit.edu/"
-        >
-          <img
-            src="/images/bzu_logo.png"
-            style="height: 36px; margin: 2px 5px; float: left"
-          />
-        </a>
-
-        <div style="float: left; padding: 2px 10px; line-height: 20px">
-          &#169; 2002 - 2023
-          <a href="https://www.birzeit.edu/" target="_blank" rel="noreferrer">
-            Birzeit University </a
-          >. All Rights Reserved
-          <br />
-          <div style="display: inline-block">
-            <img src="/images/icons/mail.png" alt="Email" />
-            <a href="https://ritaj.birzeit.edu/emails"
-              >عناوين البريد الإلكتروني للتواصل مع الجامعة</a
-            >
-          </div>
-          <div style="display: inline-block">
-            <img src="/images/icons/tel.png" alt="Tel" />
+    <div style='float: right; padding: 2px 10px; line-height: 20px;'>
+        &#169; 2002 - 2024
+        <a href="https://www.birzeit.edu/" target="_blank" rel="noreferrer">
+            جامعة بيرزيت
+        </a>.
+        جميع الحقوق محفوظة
+        <br>
+        <div style="display: inline-block;">
+            <img src="/images/icons/mail.png" alt="بريد إلكتروني" />
+            <a href="https://ritaj.birzeit.edu/emails">عناوين البريد الإلكتروني للتواصل مع الجامعة</a>
+        </div>
+        <div style="display: inline-block;">
+            <img src="/images/icons/tel.png" alt="هاتف" />
             <span dir="ltr">+970-2-2982000</span>
-          </div>
-          <div style="display: inline-block">&nbsp;&nbsp;</div>
-          <div style="display: inline-block">
-            <img
-              src="/images/icons/medical.jpg"
-              alt="medical clinc"
-              style="width: 15px; height: 15px"
-            />
-            <span dir="rtl"
-              ><font color="red"
-                >العيادة: الأرضي 022982151 &nbsp; الخلوي 0592982001</font
-              ></span
-            >
-          </div>
-          <div style="display: inline-block">&nbsp;&nbsp;</div>
-          <div style="display: inline-block">
-            <img
-              src="/images/icons/guard.jpg"
-              alt="univeristy guards"
-              style="width: 15px; height: 15px"
-            />
-            <span dir="rtl"
-              ><font color="red"
-                >الحرس: الأرضي 022982919 &nbsp; الخلوي 0599281200</font
-              ></span
-            >
-          </div>
         </div>
-      </div>
+		<div style="display: inline-block;">
+            &nbsp;&nbsp;
+        </div>
+        <div style="display: inline-block;">
+            <img src="/images/icons/medical.jpg" alt="عيادة الجامعة" style="width:15px;height:15px;"/>
+            <span dir="rtl"><font color="red">العيادة: الأرضي 022982151 &nbsp; الخلوي 0592982001</font></span>
+        </div>
+		<div style="display: inline-block;">
+            &nbsp;&nbsp;
+        </div>
+        <div style="display: inline-block;">
+            <img src="/images/icons/guard.jpg" alt="حرس الجامعة" style="width:15px;height:15px;"/>
+            <span dir="rtl"><font color="red">الحرس: الأرضي 022982919 &nbsp; الخلوي 0599281200</font></span>
+        </div>
     </div>
-  </body>
+</div>
+            </div>
+        
+    </body>
 </html>

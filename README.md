@@ -1,13 +1,11 @@
 # Course Schedule
 
-A python Script that scrapes course schedule out from **[Course Schedule](https://ritaj.birzeit.edu/student/schedule)** and converts it to a calendar file <kbd>.ics</kbd> that you can later upload it to any calendaring app.
+A Python script that scrapes course schedule out from **[Course Schedule](https://ritaj.birzeit.edu/student/schedule)** and converts it to a calendar file <kbd>.ics</kbd> that you can later upload to any calendaring app.
 
 
-## How to install
-First, you need to have ```python``` and ```pip``` installed.
-
+## Installation
 - Clone the repository.
-- Save the **[Course Schedule](https://ritaj.birzeit.edu/student/schedule)** html page into index.html.
+- Save the **[Course Schedule](https://ritaj.birzeit.edu/student/schedule)** HTML page into index.html.
 
     - You can alternatively press <kbd>ctrl</kbd> + <kbd>u</kbd> to view the source code in your browser, then copy it to index.html.
 
@@ -15,14 +13,11 @@ First, you need to have ```python``` and ```pip``` installed.
 
     -  ```pip install -r requirements.txt```
 
-- Run main.py
-
+- Run the script
   - ```python main.py```
-
 
 ---
 
-You'll have a calendar.ics file that you can later import to **[Google Calendar](https://calendar.google.com)** or any other calendering app.
 
 
 ## Future Work
