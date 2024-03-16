@@ -44,6 +44,7 @@ class Schedule:
                 self.df = pd.read_html(StringIO(str(table)))[0]
                 self.df = self.df.rename(
                     columns={"Class": "Section", "time": "Time", "Room Number": "Room"})
+                self.df.columns = ["Course Label", "Section", "Course Title", "Instructor", "Days", "Time", "Room"]
 
         except Exception as e:
             print(e)
@@ -116,5 +117,3 @@ if __name__ == '__main__':
     end_date = "2024-6-15"
     schedule = Schedule(start_date, end_date)
     schedule.to_ical()
-
-        
