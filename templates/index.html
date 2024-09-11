@@ -4,35 +4,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>📋 Course Schedule</title>
+  <title>Course Schedule</title>
   <link rel="stylesheet" href="/static/css/output.css" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📋</text></svg>">
 </head>
 
-<body>
-  <section class="flex items-center justify-center min-h-screen">
-    <div class="w-full max-w-3xl my-auto py-20 bg-gray-50 rounded-2xl border border-gray-300 gap-3 grid border-dashed"
-      id="dropZone">
-      <div class="grid gap-1">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" class="mx-auto" viewBox="0 0 40 40" fill="none">
-          <g id="Upload 02">
-            <path id="icon"
-              d="M16.296 25.3935L19.9997 21.6667L23.7034 25.3935M19.9997 35V21.759M10.7404 27.3611H9.855C6.253 27.3611 3.33301 24.4411 3.33301 20.8391C3.33301 17.2371 6.253 14.3171 9.855 14.3171V14.3171C10.344 14.3171 10.736 13.9195 10.7816 13.4326C11.2243 8.70174 15.1824 5 19.9997 5C25.1134 5 29.2589 9.1714 29.2589 14.3171H30.1444C33.7463 14.3171 36.6663 17.2371 36.6663 20.8391C36.6663 24.4411 33.7463 27.3611 30.1444 27.3611H29.2589"
-              stroke="#4F46E5" stroke-width="1.6" stroke-linecap="round" />
-          </g>
-        </svg>
-        <h2 class="text-center text-gray-400   text-xs leading-4">PNG, JPG or PDF, smaller than 15MB</h2>
-      </div>
-      <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data" class="grid gap-2">
-        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400 mx-auto"><span class="font-semibold">Click to
-            upload</span> or drag and drop</p>
-        <input id="fileInput" type="file" name="file" accept=".html" hidden />
-        <div class="flex justify-center">
-
-        </div>
-        <input type="submit" class="hidden" />
-      </form>
+<body class="p-2">
+  <div
+    class="w-full my-auto min-h-screen bg-gray-50 rounded-2xl border border-gray-300  border-dashed flex justify-center items-center flex-col"
+    id="dropZone">
+    <div class="grid gap-1">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" class="mx-auto" viewBox="0 0 40 40" fill="none">
+        <g id="Upload 02">
+          <path id="icon"
+            d="M16.296 25.3935L19.9997 21.6667L23.7034 25.3935M19.9997 35V21.759M10.7404 27.3611H9.855C6.253 27.3611 3.33301 24.4411 3.33301 20.8391C3.33301 17.2371 6.253 14.3171 9.855 14.3171V14.3171C10.344 14.3171 10.736 13.9195 10.7816 13.4326C11.2243 8.70174 15.1824 5 19.9997 5C25.1134 5 29.2589 9.1714 29.2589 14.3171H30.1444C33.7463 14.3171 36.6663 17.2371 36.6663 20.8391C36.6663 24.4411 33.7463 27.3611 30.1444 27.3611H29.2589"
+            stroke="#2563eb" stroke-width="1.6" stroke-linecap="round" />
+        </g>
+      </svg>
+      <h2 class="text-center text-sm font-medium text-gray-500 leading">HTML Files (Max 15MB)</h2>
     </div>
-  </section>
+    <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data" class="grid gap-2">
+      <p class="mb-2 text-md mx-auto"><span class="font-semibold text-blue-600">Click</span> or drop anywhere</p>
+      <input id="fileInput" type="file" name="file" accept=".html" hidden />
+      <div class="flex justify-center">
+
+      </div>
+      <input type="submit" class="hidden" />
+    </form>
+  </div>
 
   <script>
     let dropZone = document.getElementById("dropZone");
@@ -46,6 +46,7 @@
     fileInput.addEventListener("change", function () {
       if (fileInput.files.length > 0) {
         uploadForm.submit();
+        uploadForm.reset();
       }
     });
 
@@ -60,8 +61,12 @@
       let file = e.dataTransfer.files[0];
       fileInput.files = e.dataTransfer.files;
       uploadForm.submit();
+      uploadForm.reset();
     });
+
+
   </script>
+
 </body>
 
 </html>
