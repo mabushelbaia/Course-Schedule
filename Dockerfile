@@ -6,7 +6,7 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt 
 RUN chmod +x /app/start_gunicorn.sh
 
 EXPOSE 8000
