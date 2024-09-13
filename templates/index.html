@@ -11,6 +11,62 @@
 </head>
 
 <body class="p-2">
+
+
+  <div id="hs-subscription-with-image"
+    class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto" role="dialog"
+    tabindex="-1" aria-labelledby="hs-subscription-with-image-label">
+    <div
+      class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+      <div class="relative flex flex-col bg-white shadow-lg rounded-xl ">
+        <div class="absolute top-2 z-[10] end-2">
+          <button type="button"
+            class="inline-flex justify-center items-center size-8 text-sm font-semibold rounded-lg border border-transparent bg-white/10 text-white hover:bg-white/20 disabled:opacity-50 disabled:pointer-events-none"
+            aria-label="Close" data-hs-overlay="#hs-subscription-with-image">
+            <span class="sr-only">Close</span>
+            <svg class="shrink-0 size-4 text-gray-900" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="p-4 sm:p-10 text-center overflow-y-auto">
+          <h3 id="hs-subscription-with-image-label" class="mb-2 text-2xl font-bold text-gray-800">
+            Yeahhhh 🎉
+          </h3>
+          <p class="text-gray-500">
+            Your file has been uploaded successfully, and we have created a schedule for you.
+          </p>
+
+          <div class="mt-6 flex justify-center gap-x-4">
+            <button
+              id="downloadButton"
+              class="flex items-center rounded-md bg-gradient-to-tr from-slate-800 to-slate-700 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mr-1.5">
+                <path fill-rule="evenodd"
+                  d="M10.5 3.75a6 6 0 0 0-5.98 6.496A5.25 5.25 0 0 0 6.75 20.25H18a4.5 4.5 0 0 0 2.206-8.423 3.75 3.75 0 0 0-4.133-4.303A6.001 6.001 0 0 0 10.5 3.75Zm2.03 5.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.72-1.72v4.94a.75.75 0 0 0 1.5 0v-4.94l1.72 1.72a.75.75 0 1 0 1.06-1.06l-3-3Z"
+                  clip-rule="evenodd" />
+              </svg>
+              Download .ics
+            </button>
+            <a href="create_calendar" class="rounded-md flex items-center border border-slate-300 py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+              <img src="https://docs.material-tailwind.com/icons/google.svg" alt="metamask" class="h-5 w-5 mr-2" />
+              Add to Google
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-center hidden">
+    <button type="button" id="hiddenButton" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-subscription-with-image" data-hs-overlay="#hs-subscription-with-image">
+      Open modal
+    </button>
+  </div>
+
   <div
     class="w-full my-auto min-h-screen bg-gray-50 rounded-2xl border border-gray-300  border-dashed flex justify-center items-center flex-col"
     id="dropZone">
@@ -34,39 +90,10 @@
     </form>
   </div>
 
-  <script>
-    let dropZone = document.getElementById("dropZone");
-    let fileInput = document.getElementById("fileInput");
-    let uploadForm = document.getElementById("uploadForm");
-
-    dropZone.addEventListener("click", function () {
-      fileInput.click();
-    });
-
-    fileInput.addEventListener("change", function () {
-      if (fileInput.files.length > 0) {
-        uploadForm.submit();
-        uploadForm.reset();
-      }
-    });
-
-    dropZone.addEventListener("dragover", function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    });
-
-    dropZone.addEventListener("drop", function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      let file = e.dataTransfer.files[0];
-      fileInput.files = e.dataTransfer.files;
-      uploadForm.submit();
-      uploadForm.reset();
-    });
 
 
-  </script>
-
+  <script src="/static/js/index.js"></script>
+  <script src="/static/js/preline.js"></script>
 </body>
 
 </html>
