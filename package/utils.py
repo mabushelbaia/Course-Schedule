@@ -1,3 +1,4 @@
+import asyncio
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
@@ -6,7 +7,7 @@ from icalendar import Calendar
 
 async def create_calendar(credentials: Credentials, calendar_name: str, ical_data: str):
     service = build("calendar", "v3", credentials=credentials)
-    
+
     # Create the new calendar
     calendar = {
         "summary": calendar_name,
@@ -19,7 +20,7 @@ async def create_calendar(credentials: Credentials, calendar_name: str, ical_dat
     if not ical_data:
         raise ValueError("No iCal data provided")
     ical = Calendar.from_ical(ical_data.encode("utf-8"))
-
+    tasks = []
     # Prepare events for asynchronous processing
     for component in ical.walk():
         try:
@@ -32,7 +33,6 @@ async def create_calendar(credentials: Credentials, calendar_name: str, ical_dat
                 rrule_dict = component.get("rrule")
                 # convert it into a string
                 rrule = format_rrule(rrule_dict)
-                print(rrule)
                 time_zone = "Asia/Jerusalem"
                 event = {
                     "summary": summary,
@@ -47,19 +47,37 @@ async def create_calendar(credentials: Credentials, calendar_name: str, ical_dat
                         "timeZone": time_zone,
                     },
                     "recurrence": [rrule],
+                    "reminders": {
+                        "useDefault": False,
+                        "overrides": [
+                            {"method": "popup", "minutes": 10}
+                        ],
+                    },
                 }
+                tasks.append(create_event(service, calendar_id, event))
 
-                service.events().insert(calendarId=calendar_id, body=event).execute()
         except HttpError as e:
             print(f"Error creating event: {e}")
-
     
     # Execute all tasks concurrently
-    return calendar_id
+    await asyncio.gather(*tasks)
+
+    return calendar_id, len(tasks)
+
+
+async def create_event(service, calendar_id, event):
+    service.events().insert(calendarId=calendar_id, body=event).execute()
+
 
 def format_rrule(rrule_dict):
-    return "RRULE:" + ";".join([
-        f"FREQ={','.join(rrule_dict.get('FREQ', []))}",
-        f"UNTIL={rrule_dict.get('UNTIL', [None])[0].strftime('%Y%m%dT%H%M%SZ')}" if 'UNTIL' in rrule_dict and rrule_dict['UNTIL'] else '',
-        f"BYDAY={','.join(rrule_dict.get('BYDAY', []))}" if 'BYDAY' in rrule_dict and rrule_dict['BYDAY'] else ''
-    ])
+    return "RRULE:" + ";".join(
+        [
+            f"FREQ={','.join(rrule_dict.get('FREQ', []))}",
+            f"UNTIL={rrule_dict.get('UNTIL', [None])[0].strftime('%Y%m%dT%H%M%SZ')}"
+            if "UNTIL" in rrule_dict and rrule_dict["UNTIL"]
+            else "",
+            f"BYDAY={','.join(rrule_dict.get('BYDAY', []))}"
+            if "BYDAY" in rrule_dict and rrule_dict["BYDAY"]
+            else "",
+        ]
+    )

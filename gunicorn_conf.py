@@ -4,7 +4,7 @@ import json
 import multiprocessing
 import os
 
-use_loglevel = os.getenv("LOG_LEVEL", "info")
+use_loglevel = os.getenv("LOG_LEVEL", "warning")
 
 # Gunicorn config variables
 loglevel = use_loglevel

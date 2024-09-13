@@ -134,4 +134,4 @@ package-lock.json
 package.json
 .venv/
 tailwind.config.js
-secret.json
+secrets/
