@@ -10,3 +10,4 @@ python-multipart
 jinja2
 python-dotenv
 html5lib
+fastapi-sessions
