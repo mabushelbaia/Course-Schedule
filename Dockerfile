@@ -9,7 +9,7 @@ COPY . .
 RUN pip install -r requirements.txt 
 RUN chmod +x /app/start_gunicorn.sh
 
-EXPOSE 8000
+EXPOSE 8080
 
 # Run the application
 CMD ["./start_gunicorn.sh"]
