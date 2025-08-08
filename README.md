@@ -1,23 +1,24 @@
 # 📅 Course Schedule
 
-This tool parses a university schedule from an `index.html` file and converts it into an iCalendar `.ics` file compatible with calendar applications.
+This tool parses a university schedule exported as an `index.html` file and converts it into an iCalendar `.ics` file compatible with calendar applications (e.g., Google Calendar, Outlook).
 
 ---
 
 ## ✨ Features
 
-- Parses course schedule from HTML.
-- Converts schedule to `.ics` iCalendar format.
-- Saves output as `schedule.ics`.
-- Prints parsed schedule table for preview.
-- Loads semester dates and settings from environment variables.
+* Parses course schedule from HTML exported from Ritaj.
+* Converts schedule data to `.ics` iCalendar format with recurring weekly events.
+* Saves output as `schedule.ics` (default) or a custom filename via CLI.
+* Optionally exports schedule as CSV.
+* Prints the parsed schedule table for preview.
+* Loads semester start and end dates from environment variables.
 
 ---
 
 ## 🛠️ Prerequisites
 
-- Python 3.8 or higher installed on your system.
-- Basic familiarity with command line/terminal.
+* Python 3.8 or higher
+* Basic command line / terminal knowledge
 
 ---
 
@@ -25,41 +26,39 @@ This tool parses a university schedule from an `index.html` file and converts it
 
 ### 1. Clone or Download the Repository
 
-Download the project files and place your schedule HTML file named `index.html` in the project root directory.
+Place your exported `index.html` schedule file in the project root directory.
 
 ---
 
-### 2. Create a Python Virtual Environment
+### 2. Create and Activate a Python Virtual Environment
 
-A virtual environment keeps dependencies isolated from your system Python.
-
-#### On Unix/Linux/macOS
+#### Unix/Linux/macOS
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-````
+```
 
-#### On Windows (PowerShell)
+#### Windows (PowerShell)
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
-> If you get an error about script execution policy, run PowerShell as administrator and execute:
+*If you get a script execution policy error:*
+
+Run PowerShell as administrator and execute:
 
 ```powershell
 Set-ExecutionPolicy RemoteSigned
 ```
 
-Then activate again.
+Then reactivate the virtual environment.
 
 ---
 
 ### 3. Install Dependencies
-
-With your virtual environment activated, install required packages:
 
 ```bash
 pip install -r requirements.txt
@@ -69,48 +68,51 @@ pip install -r requirements.txt
 
 ### 4. Set Environment Variables
 
-The script reads semester dates from environment variables loaded by `python-dotenv`:
+The script loads semester dates from environment variables via `python-dotenv`.
 
-- `START_DATE` (format: `DD-MM-YYYY`)
-- `END_DATE` (format: `DD-MM-YYYY`)
-
-Create a `.env` file in your project root with the following content:
+Create a `.env` file in your project root with these variables (date format flexible but recommended `DD-MM-YYYY`):
 
 ```env
 START_DATE=01-07-2025
 END_DATE=01-09-2025
-
 ```
 
 ---
 
 ### 5. Running the Script
 
-Run the main script as usual:
+Run the script with:
 
 ```bash
-python main.py
+python main.py -o my_schedule.ics --csv
 ```
 
-The script will load these environment variables and use them to process the schedule.
+Options:
+
+* `-o` or `--output`: specify output `.ics` filename (default: `schedule.ics`)
+* `--csv`: export a CSV file (`schedule.csv`) alongside `.ics`
 
 ---
 
-## 🐞 Troubleshooting
+## 📦 Package Structure
 
-- **Environment variables not found**:
-  Ensure your `.env` file exists and that `python-dotenv` is installed and used in your code to load it.
+```
+course-schedule/       
+├── course_schedule/    
+│   ├── __init__.py     # package init + config + maybe main.py
+│   ├── config.py       # env vars loading
+│   └── main.py         # Schedule class and core logic
+├── main.py             # CLI entry point script at repo root
+├── requirements.txt
+├── .env
+├── index.html
 
-- **Date format errors**:
-  Make sure dates in `.env` use the `YYYY-MM-DD` format.
+```
 
-- **FileNotFoundError**:
-  Confirm `index.html` exists in the script's working directory.
+---
 
-- **Encoding issues**:
-  Use UTF-8 encoding in your terminal and files.
+## 📞 Support / Contributing
 
-- **Virtual environment activation**:
-  Use the correct command per your OS as shown above.
+Feel free to open issues or pull requests on GitHub! Contributions and feedback are welcome.
 
 ---
