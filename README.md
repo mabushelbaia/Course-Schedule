@@ -3,7 +3,19 @@
 This tool parses a university schedule exported as an `index.html` file and converts it into an iCalendar `.ics` file compatible with calendar applications (e.g., Google Calendar, Outlook).
 
 ---
+## ⚠️ Important Notice
 
+**The university has updated their schedule format, which has broken the current parser.** 
+
+To fix this issue, we need a sample HTML file exported from a **student account** (not faculty/admin). If you're a student and can help, please:
+
+1. Export your schedule as HTML from the student portal
+2. Share the `index.html` file (remove any personal information first)
+3. Open an issue on GitHub or contact us
+
+This will help us update the parser to work with the new format.
+
+---
 ## ✨ Features
 
 * Parses course schedule from HTML exported from Ritaj.
