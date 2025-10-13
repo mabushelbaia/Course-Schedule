@@ -22,37 +22,158 @@ class Schedule:
 
     def load(self, html: str) -> None:
         soup = BeautifulSoup(html, "lxml")
-        table = soup.find("table")
-        if table is None:
-            raise ValueError("No table found in HTML.")
-
-        df = pd.read_html(StringIO(str(table)))[0]
-        num_cols = df.shape[1]
-
-        if num_cols == 7:
-            # Original student schedule format
-            df = df.rename(columns={"Class": "Section", "time": "Time", "Room Number": "Room"})
-            df.columns = ["Course Label", "Section", "Course Title", "Instructor", "Days", "Time", "Room"]
-
-        elif num_cols == 9:
-            # Teacher schedule format
-            df.columns = [
-                "Course Label",
-                "Section",
-                "Course Title",
-                "Registered Number",
-                "Max Number",
-                "Days",   # days are in one col, time range in another
-                "Time",
-                "Room",
-                "Extra",  # likely empty or irrelevant column
-            ]
-            df = df.drop(columns=["Registered Number", "Max Number", "Extra"])
-            # Add default Instructor column to keep downstream code consistent
-            if "Instructor" not in df.columns:
-                df["Instructor"] = "N/A"
+        
+        # Try to find the schedule table - look for table with specific structure
+        table = None
+        tables = soup.find_all("table")
+        
+        # First, try to find a table that can be parsed by pandas
+        for tbl in tables:
+            try:
+                test_df = pd.read_html(StringIO(str(tbl)))[0]
+                if test_df.shape[1] >= 5:  # Should have at least 5 columns
+                    table = tbl
+                    break
+            except Exception:
+                continue
+        
+        # If pandas can't parse it, manually extract data from instructor schedule format
+        if table is None or pd.read_html(StringIO(str(table)))[0].shape[1] < 5:
+            # Try manual parsing for instructor schedule format
+            data = []
+            for tbl in tables:
+                rows = tbl.find_all("tr")
+                if len(rows) < 2:
+                    continue
+                    
+                for row in rows[1:]:  # Skip header row
+                    cells = row.find_all("td")
+                    if len(cells) < 4:
+                        continue
+                    
+                    # Extract course info from first cell
+                    course_cell = cells[0]
+                    course_label_elem = course_cell.find("a")
+                    if not course_label_elem:
+                        continue
+                    
+                    course_label = course_label_elem.get_text(strip=True)
+                    
+                    # Extract section from sub-title
+                    section = "N/A"
+                    section_span = course_cell.find("span", string=lambda x: x and "Section:" in x)
+                    if section_span:
+                        section = section_span.get_text(strip=True).replace("Section:", "").strip()
+                    
+                    # Extract course title
+                    title_div = course_cell.find("div", class_="title")
+                    course_title = title_div.get_text(strip=True) if title_div else "N/A"
+                    
+                    # Extract days, time, room
+                    days = cells[1].get_text(strip=True) if len(cells) > 1 else "N/A"
+                    time = cells[2].get_text(strip=True) if len(cells) > 2 else "N/A"
+                    room = cells[3].get_text(strip=True) if len(cells) > 3 else "N/A"
+                    
+                    # Skip rows without time information
+                    if time == "N/A" or time == "" or "-" not in time:
+                        continue
+                    
+                    data.append({
+                        "Course Label": course_label,
+                        "Section": section,
+                        "Course Title": course_title,
+                        "Instructor": "N/A",
+                        "Days": days,
+                        "Time": time,
+                        "Room": room
+                    })
+            
+            if data:
+                df = pd.DataFrame(data)
+            else:
+                raise ValueError("Could not parse schedule table from HTML.")
         else:
-            raise ValueError(f"Unexpected number of columns: {num_cols}")
+            # Use pandas parsing for standard format
+            df = pd.read_html(StringIO(str(table)))[0]
+            num_cols = df.shape[1]
+
+            if num_cols == 5:
+                # Instructor schedule format with 5 columns (المساق, day, time, room, extra)
+                # Need to extract course info from complex first column
+                # Fall back to manual parsing
+                data = []
+                rows = table.find_all("tr")
+                for row in rows[1:]:  # Skip header row
+                    cells = row.find_all("td")
+                    if len(cells) < 4:
+                        continue
+                    
+                    # Extract course info from first cell
+                    course_cell = cells[0]
+                    course_label_elem = course_cell.find("a")
+                    if not course_label_elem:
+                        continue
+                    
+                    course_label = course_label_elem.get_text(strip=True)
+                    
+                    # Extract section from sub-title
+                    section = "N/A"
+                    section_span = course_cell.find("span", string=lambda x: x and "Section:" in x)
+                    if section_span:
+                        section = section_span.get_text(strip=True).replace("Section:", "").strip()
+                    
+                    # Extract course title
+                    title_div = course_cell.find("div", class_="title")
+                    course_title = title_div.get_text(strip=True) if title_div else "N/A"
+                    
+                    # Extract days, time, room
+                    days = cells[1].get_text(strip=True) if len(cells) > 1 else "N/A"
+                    time = cells[2].get_text(strip=True) if len(cells) > 2 else "N/A"
+                    room = cells[3].get_text(strip=True) if len(cells) > 3 else "N/A"
+                    
+                    # Skip rows without time information
+                    if time == "N/A" or time == "" or "-" not in time:
+                        continue
+                    
+                    data.append({
+                        "Course Label": course_label,
+                        "Section": section,
+                        "Course Title": course_title,
+                        "Instructor": "N/A",
+                        "Days": days,
+                        "Time": time,
+                        "Room": room
+                    })
+                
+                if data:
+                    df = pd.DataFrame(data)
+                else:
+                    raise ValueError("Could not parse 5-column instructor schedule.")
+
+            elif num_cols == 7:
+                # Original student schedule format
+                df = df.rename(columns={"Class": "Section", "time": "Time", "Room Number": "Room"})
+                df.columns = ["Course Label", "Section", "Course Title", "Instructor", "Days", "Time", "Room"]
+
+            elif num_cols == 9:
+                # Teacher schedule format
+                df.columns = [
+                    "Course Label",
+                    "Section",
+                    "Course Title",
+                    "Registered Number",
+                    "Max Number",
+                    "Days",   # days are in one col, time range in another
+                    "Time",
+                    "Room",
+                    "Extra",  # likely empty or irrelevant column
+                ]
+                df = df.drop(columns=["Registered Number", "Max Number", "Extra"])
+                # Add default Instructor column to keep downstream code consistent
+                if "Instructor" not in df.columns:
+                    df["Instructor"] = "N/A"
+            else:
+                raise ValueError(f"Unexpected number of columns: {num_cols}")
 
         # Normalize Days column strings (remove extra whitespace/newlines)
         df["Days"] = df["Days"].apply(lambda x: " ".join(str(x).split()))
