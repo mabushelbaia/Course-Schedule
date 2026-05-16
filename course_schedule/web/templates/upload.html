@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Upload Schedule{% endblock %}
+{% block content %}
+<h1>Upload Schedule</h1>
+<p class="subtitle">Select an HTML file exported from Ritaj</p>
+
+<form hx-post="/upload" hx-target="#result" hx-encoding="multipart/form-data" hx-indicator="#spinner">
+  <div class="form-group">
+    <label for="file">Schedule HTML file</label>
+    <input type="file" name="file" accept=".html" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Convert</button>
+  <span id="spinner" class="htmx-indicator"><span class="spinner"></span> Processing...</span>
+</form>
+
+<div id="result"></div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Academic Calendar{% endblock %}
+{% block content %}
+<h1>Academic Calendar</h1>
+
+{% if academic_year %}
+<p class="subtitle">Academic Year {{ academic_year[0] }}/{{ academic_year[1] }}</p>
+{% endif %}
+
+{% if semester %}
+<div class="card" style="margin-bottom: 1.5rem;">
+  <h3>Detected Semester: {{ semester.name }}</h3>
+  <p>Start: {{ semester.start_date.strftime('%d %B %Y') }}</p>
+  <p>End: {{ semester.end_date.strftime('%d %B %Y') }}</p>
+</div>
+{% endif %}
+
+{% if events %}
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>End Date</th>
+      <th>Event</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for event in events %}
+    <tr>
+      <td>{{ event.date.strftime('%d %b %Y') }}</td>
+      <td>
+        {% if event.end_date and event.end_date != event.date %}
+          {{ event.end_date.strftime('%d %b %Y') }}
+        {% else %}
+          —
+        {% endif %}
+      </td>
+      <td>{{ event.title }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="subtitle">No events found.</p>
+{% endif %}
+
+<a href="/download/{{ cal_id }}" class="btn btn-success">Download .ics</a>
+{% endblock %}
