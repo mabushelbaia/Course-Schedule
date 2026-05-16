@@ -8,4 +8,15 @@ services:
       - LOG_LEVEL=info
     restart: unless-stopped
 
-
+  web:
+    build: .
+    container_name: course-schedule-web
+    ports:
+      - "8000:8000"
+    environment:
+      - FLARESOLVERR_URL=http://flaresolverr:8191/v1
+      - START_DATE=${START_DATE:-}
+      - END_DATE=${END_DATE:-}
+    depends_on:
+      - flaresolverr
+    restart: unless-stopped
