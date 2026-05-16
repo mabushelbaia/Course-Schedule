@@ -49,10 +49,9 @@ def _build_schedule_internal(html: str, start_date: datetime.datetime, end_date:
     result_id = str(uuid.uuid4())
     results[result_id] = {
         "ical": ical.to_ical(),
-        "df": schedule.df,
     }
-    if len(results) > 100:
-        results.clear()
+    while len(results) > 100:
+        results.pop(next(iter(results)))
     return {
         "id": result_id,
         "courses": schedule.df.to_dict(orient="records"),
@@ -75,13 +74,19 @@ async def upload_form(request: Request):
 
 @app.post("/upload", response_class=HTMLResponse)
 async def upload_submit(request: Request, file: UploadFile = File(...)):
-    if not file.filename or not file.filename.endswith(".html"):
+    if not file.filename or not file.filename.lower().endswith(".html"):
         return templates.TemplateResponse(
             request,
             "partials/error.html",
             {"message": "Please upload an .html file."},
         )
     html_content = (await file.read()).decode("utf-8", errors="replace")
+    if len(html_content) > 10 * 1024 * 1024:
+        return templates.TemplateResponse(
+            request,
+            "partials/error.html",
+            {"message": "File too large. Maximum size is 10MB."},
+        )
     try:
         start_date, end_date = _resolve_dates()
         result = _build_schedule_internal(html_content, start_date, end_date)

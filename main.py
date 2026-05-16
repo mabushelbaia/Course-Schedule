@@ -1,5 +1,4 @@
 import logging
-import sys
 
 from course_schedule.cli import build_parser, run
 from dotenv import load_dotenv
