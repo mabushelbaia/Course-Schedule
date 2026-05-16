@@ -13,16 +13,19 @@ export default function CalendarPage() {
   const [data, setData] = useState<CalendarResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [retry, setRetry] = useState(0);
 
   useEffect(() => {
+    setLoading(true);
+    setError(null);
     fetchCalendar()
       .then(setData)
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
-  }, []);
+  }, [retry]);
 
   if (loading) return <Box textAlign="center" py={8}><CircularProgress /></Box>;
-  if (error) return <ErrorAlert message={error} onRetry={() => window.location.reload()} />;
+  if (error) return <ErrorAlert message={error} onRetry={() => setRetry((p) => p + 1)} />;
   if (!data) return null;
 
   return (

@@ -164,6 +164,11 @@ async def download(result_id: str):
     )
 
 
+@app.get("/api/{path:path}")
+async def api_404(path: str):
+    raise HTTPException(status_code=404, detail="Not found")
+
+
 # Optional: serve React SPA in production
 _frontend_index = FRONTEND_DIST / "index.html"
 if _frontend_index.exists():
