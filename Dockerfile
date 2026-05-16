@@ -1,5 +1,13 @@
-FROM python:3.12-slim
+# ---- Build Stage ----
+FROM node:20-alpine AS frontend-builder
+WORKDIR /app
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci
+COPY frontend/ ./
+RUN npm run build
 
+# ---- Runtime Stage ----
+FROM python:3.12-slim
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
 
 WORKDIR /app
@@ -9,6 +17,8 @@ RUN uv sync --no-dev --no-install-project
 
 COPY . .
 RUN uv sync --no-dev
+
+COPY --from=frontend-builder /app/dist /app/frontend/dist
 
 EXPOSE 8000
 
