@@ -65,20 +65,21 @@ def _build_schedule_internal(html: str, start_date: datetime.datetime, end_date:
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    return templates.TemplateResponse("home.html", {"request": request})
+    return templates.TemplateResponse(request, "home.html")
 
 
 @app.get("/upload", response_class=HTMLResponse)
 async def upload_form(request: Request):
-    return templates.TemplateResponse("upload.html", {"request": request})
+    return templates.TemplateResponse(request, "upload.html")
 
 
 @app.post("/upload", response_class=HTMLResponse)
 async def upload_submit(request: Request, file: UploadFile = File(...)):
     if not file.filename or not file.filename.endswith(".html"):
         return templates.TemplateResponse(
+            request,
             "partials/error.html",
-            {"request": request, "message": "Please upload an .html file."},
+            {"message": "Please upload an .html file."},
         )
     html_content = (await file.read()).decode("utf-8", errors="replace")
     try:
@@ -86,15 +87,16 @@ async def upload_submit(request: Request, file: UploadFile = File(...)):
         result = _build_schedule_internal(html_content, start_date, end_date)
     except (ValueError, HTTPException) as e:
         return templates.TemplateResponse(
+            request,
             "partials/error.html",
-            {"request": request, "message": str(e)},
+            {"message": str(e)},
         )
-    return templates.TemplateResponse("partials/result.html", {"request": request, **result})
+    return templates.TemplateResponse(request, "partials/result.html", result)
 
 
 @app.get("/live", response_class=HTMLResponse)
 async def live_form(request: Request):
-    return templates.TemplateResponse("live.html", {"request": request})
+    return templates.TemplateResponse(request, "live.html")
 
 
 @app.post("/live", response_class=HTMLResponse)
@@ -115,8 +117,9 @@ async def live_submit(
         start_date, end_date = _resolve_dates(calendar_html)
     except HTTPException:
         return templates.TemplateResponse(
+            request,
             "partials/error.html",
-            {"request": request, "message": "Could not detect semester dates and no START_DATE/END_DATE set."},
+            {"message": "Could not detect semester dates and no START_DATE/END_DATE set."},
         )
 
     client = RitajClient(flaresolverr_url=flaresolverr_url, username=username, password=password)
@@ -125,8 +128,9 @@ async def live_submit(
         schedule_html = await client.fetch_schedule()
     except RitajError as e:
         return templates.TemplateResponse(
+            request,
             "partials/error.html",
-            {"request": request, "message": str(e)},
+            {"message": str(e)},
         )
     finally:
         await client.close()
@@ -135,10 +139,11 @@ async def live_submit(
         result = _build_schedule_internal(schedule_html, start_date, end_date)
     except ValueError as e:
         return templates.TemplateResponse(
+            request,
             "partials/error.html",
-            {"request": request, "message": f"Failed to parse schedule: {e}"},
+            {"message": f"Failed to parse schedule: {e}"},
         )
-    return templates.TemplateResponse("partials/result.html", {"request": request, **result})
+    return templates.TemplateResponse(request, "partials/result.html", result)
 
 
 @app.get("/calendar", response_class=HTMLResponse)
@@ -148,8 +153,9 @@ async def calendar_page(request: Request):
         calendar_html = await fetch_academic_calendar(flaresolverr_url)
     except Exception as e:
         return templates.TemplateResponse(
+            request,
             "partials/error.html",
-            {"request": request, "message": f"Failed to fetch calendar: {e}"},
+            {"message": f"Failed to fetch calendar: {e}"},
         )
 
     cal = AcademicCalendar(calendar_html)
@@ -164,8 +170,7 @@ async def calendar_page(request: Request):
     cal_id = str(uuid.uuid4())
     results[cal_id] = {"ical": cal_ical.to_ical(), "prefix": "calendar"}
 
-    return templates.TemplateResponse("calendar.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "calendar.html", {
         "semester": semester,
         "events": cal.events,
         "academic_year": cal.academic_year,
