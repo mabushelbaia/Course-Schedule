@@ -15,7 +15,6 @@ from course_schedule import Schedule, AcademicCalendar
 from course_schedule.client import RitajClient, RitajError, fetch_academic_calendar
 from course_schedule.config import START_DATE, END_DATE
 
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Course Schedule")
@@ -52,6 +51,8 @@ def _build_schedule_internal(html: str, start_date: datetime.datetime, end_date:
         "ical": ical.to_ical(),
         "df": schedule.df,
     }
+    if len(results) > 100:
+        results.clear()
     return {
         "id": result_id,
         "courses": schedule.df.to_dict(orient="records"),
@@ -79,7 +80,7 @@ async def upload_submit(request: Request, file: UploadFile = File(...)):
             "partials/error.html",
             {"request": request, "message": "Please upload an .html file."},
         )
-    html_content = (await file.read()).decode("utf-8")
+    html_content = (await file.read()).decode("utf-8", errors="replace")
     try:
         start_date, end_date = _resolve_dates()
         result = _build_schedule_internal(html_content, start_date, end_date)
@@ -161,7 +162,7 @@ async def calendar_page(request: Request):
     cal.add_to_ical(cal_ical)
 
     cal_id = str(uuid.uuid4())
-    results[cal_id] = {"ical": cal_ical.to_ical()}
+    results[cal_id] = {"ical": cal_ical.to_ical(), "prefix": "calendar"}
 
     return templates.TemplateResponse("calendar.html", {
         "request": request,
@@ -177,8 +178,9 @@ async def download(result_id: str):
     entry = results.get(result_id)
     if not entry:
         raise HTTPException(status_code=404, detail="Result not found or expired.")
+    prefix = entry.get("prefix", "schedule")
     return Response(
         content=entry["ical"],
         media_type="text/calendar",
-        headers={"Content-Disposition": f'attachment; filename="schedule-{result_id[:8]}.ics"'},
+        headers={"Content-Disposition": f'attachment; filename="{prefix}-{result_id[:8]}.ics"'},
     )
