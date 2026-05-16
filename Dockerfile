@@ -12,4 +12,4 @@ RUN uv sync --no-dev
 
 EXPOSE 8000
 
-CMD ["uvicorn", "course_schedule.web:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uv", "run", "uvicorn", "course_schedule.web:app", "--host", "0.0.0.0", "--port", "8000"]
