@@ -1,8 +1,9 @@
 
 
 from .main import Schedule
-from .config import START_DATE, END_DATE
+from .client import RitajClient, RitajError
+from .calendar import AcademicCalendar
 
-__all__ = ["Schedule", "START_DATE", "END_DATE"]
+__all__ = ["Schedule", "START_DATE", "END_DATE", "RitajClient", "RitajError", "AcademicCalendar"]
 
 

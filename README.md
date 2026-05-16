@@ -1,130 +1,102 @@
-# 📅 Course Schedule
+# Course Schedule
 
-This tool parses a university schedule exported as an `index.html` file and converts it into an iCalendar `.ics` file compatible with calendar applications (e.g., Google Calendar, Outlook).
+Convert Birzeit University (Ritaj) course schedules to iCalendar format.
 
----
-## ⚠️ Important Notice
+## Features
 
-**The university has updated their schedule format, which has broken the current parser.** 
+- **File mode** — parse an exported HTML schedule file into `.ics` + optional `.csv`
+- **Live mode** — log into Ritaj via FlareSolverr and fetch the schedule automatically
+- **Academic calendar** — automatically fetches and merges all academic calendar events (holidays, exam periods, registration deadlines) into the `.ics`
+- **Semester auto-detection** — detects the current semester from the academic calendar and auto-sets START_DATE/END_DATE for course RRULEs
+- **Separate or merged output** — academic calendar events in the same `.ics` as courses, or in their own file
+- **Interactive prompts** — no args needed, just run the tool and follow the prompts
 
-To fix this issue, we need a sample HTML file exported from a **student account** (not faculty/admin). If you're a student and can help, please:
+## Usage
 
-1. Export your schedule as HTML from the student portal
-2. Share the `index.html` file (remove any personal information first)
-3. Open an issue on GitHub or contact us
-
-This will help us update the parser to work with the new format.
-
----
-## ✨ Features
-
-* Parses course schedule from HTML exported from Ritaj.
-* Converts schedule data to `.ics` iCalendar format with recurring weekly events.
-* Saves output as `schedule.ics` (default) or a custom filename via CLI.
-* Optionally exports schedule as CSV.
-* Prints the parsed schedule table for preview.
-* Loads semester start and end dates from environment variables.
-
----
-
-## 🛠️ Prerequisites
-
-* Python 3.8 or higher
-* Basic command line / terminal knowledge
-
----
-
-## 🚀 Setup Instructions
-
-### 1. Clone or Download the Repository
-
-Place your exported `index.html` schedule file in the project root directory.
-
----
-
-### 2. Create and Activate a Python Virtual Environment
-
-#### Unix/Linux/macOS
+### Quick start (interactive)
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
+python main.py
 ```
 
-#### Windows (PowerShell)
+Prompts for credentials, semester, calendar options, and output path — then runs live mode.
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-```
-
-*If you get a script execution policy error:*
-
-Run PowerShell as administrator and execute:
-
-```powershell
-Set-ExecutionPolicy RemoteSigned
-```
-
-Then reactivate the virtual environment.
-
----
-
-### 3. Install Dependencies
+### File mode
 
 ```bash
-pip install -r requirements.txt
+python main.py schedule.html -o my_schedule.ics --csv
 ```
 
----
-
-### 4. Set Environment Variables
-
-The script loads semester dates from environment variables via `python-dotenv`.
-
-Create a `.env` file in your project root with these variables (date format flexible but recommended `DD-MM-YYYY`):
-
-```env
-START_DATE=01-07-2025
-END_DATE=01-09-2025
-```
-
----
-
-### 5. Running the Script
-
-Run the script with:
+### Live mode
 
 ```bash
-python main.py -o my_schedule.ics --csv
+python main.py --live -o schedule.ics
 ```
 
-Options:
+### With academic calendar
 
-* `-o` or `--output`: specify output `.ics` filename (default: `schedule.ics`)
-* `--csv`: export a CSV file (`schedule.csv`) alongside `.ics`
+```bash
+# Merged into one file (default)
+python main.py --live -o schedule.ics --calendar merged
 
----
+# Separate files
+python main.py --live -o schedule.ics --calendar separate --calendar-output calendar.ics
 
-## 📦 Package Structure
-
-```
-course-schedule/       
-├── course_schedule/    
-│   ├── __init__.py     # package init + config + maybe main.py
-│   ├── config.py       # env vars loading
-│   └── main.py         # Schedule class and core logic
-├── main.py             # CLI entry point script at repo root
-├── requirements.txt
-├── .env
-├── index.html
-
+# Skip calendar events
+python main.py --live -o schedule.ics --no-calendar
 ```
 
----
+### Force a specific semester
 
-## 📞 Support / Contributing
+```bash
+python main.py --live --semester Fall
+```
 
-Feel free to open issues or pull requests on GitHub! Contributions and feedback are welcome.
+## CLI Reference
 
----
+| Flag | Description |
+|------|-------------|
+| `html` | Path to HTML file (optional with `--live`, not needed in interactive) |
+| `-o`, `--output` | Output `.ics` filename (default: `schedule.ics`) |
+| `--csv` | Also export as CSV |
+| `--live` | Fetch schedule live from Ritaj via FlareSolverr |
+| `--interactive` | Run interactive prompts |
+| `--username` | Ritaj username (env: `RITAJ_USERNAME`) |
+| `--password` | Ritaj password (env: `RITAJ_PASSWORD`) |
+| `--flaresolverr-url` | FlareSolverr URL (default: `http://localhost:8191/v1`) |
+| `--no-calendar` | Skip academic calendar events |
+| `--semester` | Force semester (`Fall`, `Spring`, `Summer`) |
+| `--calendar` | `merged` (default) or `separate` |
+| `--calendar-output` | Calendar `.ics` path (only with `--calendar separate`) |
+
+## Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `RITAJ_USERNAME` | For `--live` | Ritaj username |
+| `RITAJ_PASSWORD` | For `--live` | Ritaj password |
+| `START_DATE` | For file mode | Semester start date (DD-MM-YYYY) |
+| `END_DATE` | For file mode | Semester end date (DD-MM-YYYY) |
+| `FLARESOLVER_URL` | For `--live` | FlareSolverr URL (default: `http://localhost:8191/v1`) |
+
+## Docker (FlareSolverr only)
+
+The tool itself runs natively with Python. FlareSolverr runs in Docker.
+
+```bash
+docker compose up -d flaresolverr
+```
+
+## Installation
+
+Requires Python 3.12+ and uv or pip.
+
+```bash
+uv sync
+```
+
+Or with pip:
+
+```bash
+pip install .
+```
