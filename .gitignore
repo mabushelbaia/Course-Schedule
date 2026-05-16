@@ -208,3 +208,8 @@ __marimo__/
 
 # Superpowers brainstorming artifacts
 .superpowers/
+docs/
+opencode.json
+
+# Node.js
+node_modules/
